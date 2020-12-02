@@ -1,12 +1,6 @@
 #* completely remove with open directory, and the STDOUT channel and replace all channels that say STDOUT with all the correct output channels which will be commented
 #* next to it's print statement
 
-# All blocks of code that are in comments
-#   are for future updates in the event that I can
-#       get them working. if you want to work on them as well
-#           and comment what you did so that I can go back and write down
-#               my notes, then please do that :) -mekasu
-
 import DiscordUtils as DiscordUtils
 import discord
 import json
