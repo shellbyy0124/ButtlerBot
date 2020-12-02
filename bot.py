@@ -13,7 +13,7 @@ import json
 import aiohttp
 import random
 import os
-#test
+
 from os import error
 from discord import member
 from discord.ext import commands
