@@ -47,6 +47,9 @@ async def on_command_error(ctx, error):
         else:
             raise error
 
+#* works
+#*commands that are in the help menu that have not been coded yet are going to be in the 0.0.2 release
+
 @bot.command(name="buttlerhelp")
 async def paginate(ctx):
     async with aiohttp.ClientSession() as session:
