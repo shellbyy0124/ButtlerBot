@@ -1,6 +1,6 @@
 # ButtlerBot
 
-[![Generic badge](https://img.shields.io/badge/<Python>-<v 3.9>-<COLOR>.svg)](https://www.python.org)
+![Generic badge](https://img.shields.io/badge/<Python>-<v 3.9>-<COLOR>.svg)(https://www.python.org)
 
 Hi, and Welcome to the ButtlerBot Github Repo!
 
