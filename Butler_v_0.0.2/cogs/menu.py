@@ -1,9 +1,10 @@
-import DiscordUtils as DiscordUtils
 import discord
 import json
 import aiohttp
 import random
 import os
+import datetime
+import DiscordUtils
 
 from os import error
 from discord import member
@@ -17,14 +18,13 @@ with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding=
 
 STDOUT = data["STDOUT"]
 
-class HelpCommands(cog):
+class HelpCommands(commands.Cog):
 
-    def __init__(self, bot, datetime):
+    def __init__(self, bot):
         self.bot = bot
-        self.datetime=datetime
     
-    @commands.command(name="buttlerhelp")
-    async def paginate(self, ctx, datetime):
+    @commands.command(aliases=["buttlerhelp"])
+    async def paginate(self, ctx):
         now = datetime.datetime.now()+datetime.timedelta(minutes=5)
         async with aiohttp.ClientSession() as session:
             async with session.get('https://rickandmortyapi.com/api/character') as resp:
@@ -50,7 +50,7 @@ class HelpCommands(cog):
         y19 = random.randint(0, 19)
         y20 = random.randint(0, 19)
 
-        embed1 = discord.Embed(timestamp = now, color=ctx.author.color).add_field(name=f"Hi! I'm {bot.user.name}, and I'm here to help!",
+        embed1 = discord.Embed(timestamp = now, color=ctx.author.color).add_field(name=f"Hi! I'm {self.bot.user.name}, and I'm here to help!",
                                                                 value="In the pages to follow are things that I am able to currently help you with, and a list of things that I am currently developing to better help you in the future! :smile: To get my help menu, type `/buttlerhelp`")
         embed1.set_image(url=x["results"][y1]["image"])
         embed1.set_footer(text='Page 1/20')
@@ -106,7 +106,7 @@ class HelpCommands(cog):
                                                                 value="When submitting code, please use it in the following way!\n`/submit https://pastebin.com/<rest_of_url>`\n`/submit https://paste.pythondiscord.com/<rest_of_url>`\n`/submit bot_suggestion <suggestion>`\n`/submit discord_suggestion <suggestion>` if you do not do it in one of these formats, it will not work!.")
         embed14.set_image(url=x["results"][y14]["image"])
         embed14.set_footer(text="Page 14/20")
-        embed15 = discord.Embed(timestamp = now, color=ctx.author.color).add_field(name=f"{bot.user.name} not responding?",
+        embed15 = discord.Embed(timestamp = now, color=ctx.author.color).add_field(name=f"{self.bot.user.name} not responding?",
                                                                 value="type `/ping` to get a pong!")
         embed15.set_image(url=x["results"][y15]["image"])
         embed15.set_footer(text="Page 15/20")

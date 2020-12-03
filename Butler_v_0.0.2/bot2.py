@@ -26,7 +26,7 @@ from discord.ext import tasks
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 
-TOKEN = data["BUTLER_TOKEN"]
+TOKEN = data["BUTTLER_TOKEN"]
 STDOUT = data["STDOUT"]
 command_prefix = data["command_prefix"]
 
@@ -34,12 +34,15 @@ intents = discord.Intents.all()
 
 bot = commands.Bot(command_prefix=command_prefix, intents=intents, nickname_command=None)
 
-#* works
 @bot.event
 async def on_ready():
     channel = bot.get_channel(STDOUT)
     await channel.send(f'{bot.user.name} is online')
 
 bot.load_extension("cogs.generalcommands")
+bot.load_extension("cogs.greetings")
+bot.load_extension("cogs.menu")
+bot.load_extension("cogs.rules")
+bot.load_extension("cogs.staff")
 
 bot.run(TOKEN)

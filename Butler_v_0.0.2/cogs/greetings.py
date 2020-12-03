@@ -18,16 +18,15 @@ with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding=
 
 STDOUT = data["STDOUT"]
 
-class Greetings(commands.Cog):
+class DMUser(commands.Cog):
 
     def __init__(self, bot):
         self.bot=bot
 
-    #* works
-    @commands.cog.listener
+    @commands.Cog.listener()
     async def on_member_join(self, member:discord.Member):
-        await self.ctx.send(f"Hi,and Welcome! I am {bot.user.name}, and I'll be your guide today! Let's hope on over to the #verification channel, and type `/buttlerrules`.")
+        await member.send(f"Hi,and Welcome! I am {self.bot.user.name}, and I'll be your guide today! Let's hope on over to the #rules channel, and type `/buttlerrules`.")
 
  
 def setup(bot):
-    bot.add_cog(Greetings(bot))
+    bot.add_cog(DMUser(bot))
