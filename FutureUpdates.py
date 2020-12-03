@@ -111,7 +111,7 @@ async def changepresence():
     await asyncio.sleep(10)
 
 #* fix me - documented on paper
-@bot.event
+
 async def on_command_error(ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("```You Do Not Have All The Requirements For That Command!```")

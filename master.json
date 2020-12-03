@@ -1,8 +1,8 @@
 {
-  "TOKEN": "NzgxNTc0MTE0OTQ2MDU2MjUy.X7_nnQ.uHfOF7v_4XOkxj27FeYkPB3HClk",
+  "BUTTLER_TOKEN": "NzgxNTc0MTE0OTQ2MDU2MjUy.X7_nnQ.uHfOF7v_4XOkxj27FeYkPB3HClk",
   "STDOUT": 779323092542685205,
   "shellbyy": 260009824945831936,
-  "command_prefix": "/",
+  "command_prefix": ">",
   "rules" : 774966632044298270,
   "welcoming_members" : 775142691591815201,
   "faq" : 774970624383778846,

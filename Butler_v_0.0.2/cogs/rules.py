@@ -15,14 +15,7 @@ from isort import logo
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 
-TOKEN = data["TOKEN"]
 STDOUT = data["STDOUT"]
-rules = data["rules"]
-command_prefix = data["command_prefix"]
-
-intents = discord.Intents.all()
-
-bot = commands.Bot(command_prefix=command_prefix, intents=intents, nickname_command=None)
 
 class Rules(cog):
 

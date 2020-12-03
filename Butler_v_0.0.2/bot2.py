@@ -8,10 +8,8 @@
 # my notes, then please do that :) -mekasu
 
 from datetime import date
-import DiscordUtils as DiscordUtils
 import discord
 import json
-import aiohttp
 import random
 import os
 import asyncio
@@ -25,11 +23,11 @@ from discord.ext import commands
 from discord.ext.commands import cog
 from discord.ext import tasks
 
-with open('/home/shellbyy/Desktop/master.json', 'r', encoding='utf-8-sig') as f:
+with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 
 TOKEN = data["BUTLER_TOKEN"]
-BotOutput = data["Bot_Output_Testing_Channel"]
+STDOUT = data["STDOUT"]
 command_prefix = data["command_prefix"]
 
 intents = discord.Intents.all()
@@ -39,9 +37,9 @@ bot = commands.Bot(command_prefix=command_prefix, intents=intents, nickname_comm
 #* works
 @bot.event
 async def on_ready():
-    channel = bot.get_channel(BotOutput)
+    channel = bot.get_channel(STDOUT)
     await channel.send(f'{bot.user.name} is online')
 
-
+bot.load_extension("cogs.generalcommands")
 
 bot.run(TOKEN)

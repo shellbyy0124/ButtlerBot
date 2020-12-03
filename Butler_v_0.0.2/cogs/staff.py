@@ -15,13 +15,7 @@ from isort import logo
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 
-TOKEN = data["TOKEN"]
 STDOUT = data["STDOUT"]
-command_prefix = data["command_prefix"]
-
-intents = discord.Intents.all()
-
-bot = commands.Bot(command_prefix=command_prefix, intents=intents, nickname_command=None)
 
 class Administration(cog):
 
@@ -67,7 +61,7 @@ class Administration(cog):
 
     @commands.command(name='buttlerstats')
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def serverinfo(self, ctx):
+    async def serverinfo(self, ctx, bot):
         role_count = len(ctx.guild.roles)
         emoji_count = len(ctx.guild.emojis)
         channel_count = len([x for x in ctx.guild.channels if isinstance(x, discord.channel.TextChannel)])
@@ -89,18 +83,18 @@ class Administration(cog):
     async def changemembernickname(self, ctx, member:discord.Member, nick):
         existing_nick = member.display_name
         new_nick = await member.edit(nick=nick)
-        nickembed = discord.Embed(colour=0xFB2605, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {new_nick}")
+        nickembed = discord.Embed(colour=0xFB2605, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {nick}")
         await member.send(embed=nickembed)
 
     @commands.command(name="buttlerpurge")
     @commands.has_permissions(manage_messages=True)
-    async def clear(self, ctx, amount:int):
+    async def clear(self, ctx, amount:int, bot):
         await ctx.channel.purge(limit=amount)
         await ctx.send(f"{bot.user.name} has purged {amount} messages from this channel!")
 
     @commands.command(name='buttlerwhois')
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def whois(self, ctx, user: discord.Member):
+    async def whois(self, ctx, user: discord.Member, bot):
         user = user or ctx.author
         if user is None:
             user = ctx.message.author
@@ -126,7 +120,7 @@ class Administration(cog):
 
     @commands.command(name='buttlerlock')
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def lock(self, ctx, channel : discord.TextChannel=None):
+    async def lock(self, ctx, channel : discord.TextChannel=None, bot):
         channel = channel or ctx.channel
         overwrite = channel.overwrites_for(ctx.guild.default_role)
         overwrite.send_messages = False
@@ -135,7 +129,7 @@ class Administration(cog):
 
     @commands.command(name='buttlerunlock')
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def unlock(self, ctx, channel : discord.TextChannel=None):
+    async def unlock(self, ctx, channel : discord.TextChannel=None, bot):
         channel = channel or ctx.channel
         overwrite = channel.overwrites_for(ctx.guild.default_role)
         overwrite.send_messages = True
@@ -144,7 +138,7 @@ class Administration(cog):
 
     @commands.command(name='buttlerlistmembers')
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def listmembers(self, ctx, datetime):
+    async def listmembers(self, ctx, datetime, bot):
         now = datetime.datetime.now()+datetime.timedelta(minutes=5)
         members = []
         for m in ctx.guild.members:
@@ -153,7 +147,7 @@ class Administration(cog):
 
                 #stuff1 = discord.Embed(timestamp=now, color=discord.Colour.purple(), title=f"Members:", description=f"""{(", ".join([members]))}""")
 
-        channel = bot.get_channel(Stdout)
+        channel = bot.get_channel(STDOUT)
         await channel.send(", ".join(members))
 
 
