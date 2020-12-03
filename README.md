@@ -1,6 +1,6 @@
 # ButtlerBot
 
-![(https://img.shields.io/badge/Python-v3.8.9-green)(https://www.python.org/)]
+[![Python 3]](https://www.python.org/)
 
 Hi, and Welcome to the ButtlerBot Github Repo!
 
