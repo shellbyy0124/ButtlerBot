@@ -5,6 +5,7 @@ import random
 import os
 import datetime
 import DiscordUtils
+import asyncio
 
 from os import error
 from discord import member
@@ -15,8 +16,7 @@ from isort import logo
 
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-
-STDOUT = data["STDOUT"]
+BOTOUTPUT = data["BOTOUTPUT"]
 
 class HelpCommands(commands.Cog):
 
@@ -29,6 +29,7 @@ class HelpCommands(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get('https://rickandmortyapi.com/api/character') as resp:
                 x = await resp.json()
+                
         y1 = random.randint(0, 19)
         y2 = random.randint(0, 19)
         y3 = random.randint(0, 19)
@@ -138,6 +139,48 @@ class HelpCommands(commands.Cog):
         paginator.add_reaction('⏭️', "last")
         embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10, embed11, embed12, embed13, embed14, embed15, embed16, embed17, embed18, embed19, embed20]
         await paginator.run(embeds)
+
+
+    @commands.command(aliases=["buttlerstaffhelp"])
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    async def staffhelpmenu(self, ctx):
+
+        adminembed1 = discord.Embed(color=ctx.author.color).add_field(name=f"Hi! I'm {self.bot.user.name} Staff Menu, and I'm here to help!",
+                                                                value="In the pages to follow are things that I am able to currently help you with, and below that is a list of things that I am currently developing to better help you in the future! :smile:")
+        adminembed1.set_image(url=self.bot.user.avatar_url)
+        adminembed1.set_footer(text='Page 1/20')
+        adminembed2 = discord.Embed(color=ctx.author.color).add_field(name="Server Statistics:",
+                                                                value="Want to help us keep up with the server stats? Type /stats to get the pertinent info!")
+        adminembed2.set_image(url=self.bot.user.avatar_url)
+        adminembed2.set_footer(text='Page 2/20')
+        adminembed3 = discord.Embed(color=ctx.author.color).add_field(name=f"User Inappropriate Nickname?",
+                                                                value="Do you see a user with an inappropriate username? then type /changenick <username_as_currently_shown> <actual_name> and the user will automatically be dm'd a message of their nickname being changed. Adding a reason for why will be coming in a future update!")
+        adminembed3.set_image(url=self.bot.user.avatar_url)
+        adminembed3.set_footer(text='Page 3/20')
+        adminembed4 = discord.Embed(color=ctx.author.color).add_field(name=f"Purging Channels:",
+                                                                value="Do Not Abuse This Ability! If you are deleting less than 23 messages, then right click and delete them individually. This command is only for if someone has hacked us, or spammed us! Try not to use this command if you are not an admin or higher. If unsure of when to use it, please ask an admin or higher in the staff chat channel")
+        adminembed4.set_image(url=self.bot.user.avatar_url)
+        adminembed4.set_footer(text='Page 4/20')
+        adminembed5 = discord.Embed(color=ctx.author.color).add_field(name=f"Who Is Who but a Who!",
+                                                                value="Some have an incomprehensible nickname, and you want to know who they are, or need to change their nickname, then type /whois <username> and get that information!")
+        adminembed5.set_image(url=self.bot.user.avatar_url)
+        adminembed5.set_footer(text='Page 5/20')
+        adminembed6 = discord.Embed(color=ctx.author.color).add_field(name=f"A member being obnixious is the voice, or text channel?",
+                                                                value="Type `/tempmute <member_name> <time_in_seconds> <reason>` to mute them")
+        adminembed6.set_image(url=self.bot.user.avatar_url)
+        adminembed6.set_footer(text='Page 6/20')
+
+        paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=True)
+        paginator.add_reaction('⏮️', "first")
+        paginator.add_reaction('⏪', "back")
+        paginator.add_reaction('⏩', "next")
+        paginator.add_reaction('⏭️', "last")
+        adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6]
+        await paginator.run(adminembeds)
+        await asyncio.sleep(90)
+        await adminembeds.delete()
+
+
 
 
 def setup(bot):

@@ -3,6 +3,7 @@ import discord
 import json
 import asyncio
 import os
+import datetime
 
 from os import error
 from discord import member
@@ -13,78 +14,46 @@ from isort import logo
 
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-
-STDOUT = data["STDOUT"]
+BOTOUTPUT = data["BOTOUTPUT"]
+mekasu = data["mekasu"]
+kastien = data["kastien"]
 
 class Administration(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["buttleradminhelp"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def adminhelpmenu(self, ctx):
-
-        adminembed1 = discord.Embed(color=ctx.author.color).add_field(name=f"Hi! I'm {self.bot.user.name} Staff Menu, and I'm here to help!",
-                                                                value="In the pages to follow are things that I am able to currently help you with, and below that is a list of things that I am currently developing to better help you in the future! :smile:")
-        adminembed1.set_image(url=self.bot.user.avatar_url)
-        adminembed1.set_footer(text='Page 1/20')
-        adminembed2 = discord.Embed(color=ctx.author.color).add_field(name="Server Statistics:",
-                                                                value="Want to help us keep up with the server stats? Type /stats to get the pertinent info!")
-        adminembed2.set_image(url=self.bot.user.avatar_url)
-        adminembed2.set_footer(text='Page 2/20')
-        adminembed3 = discord.Embed(color=ctx.author.color).add_field(name=f"User Inappropriate Nickname?",
-                                                                value="Do you see a user with an inappropriate username? then type /changenick <username_as_currently_shown> <actual_name> and the user will automatically be dm'd a message of their nickname being changed. Adding a reason for why will be coming in a future update!")
-        adminembed3.set_image(url=self.bot.user.avatar_url)
-        adminembed3.set_footer(text='Page 3/20')
-        adminembed4 = discord.Embed(color=ctx.author.color).add_field(name=f"Purging Channels:",
-                                                                value="Do Not Abuse This Ability! If you are deleting less than 23 messages, then right click and delete them individually. This command is only for if someone has hacked us, or spammed us! Try not to use this command if you are not an admin or higher. If unsure of when to use it, please ask an admin or higher in the staff chat channel")
-        adminembed4.set_image(url=self.bot.user.avatar_url)
-        adminembed4.set_footer(text='Page 4/20')
-        adminembed5 = discord.Embed(color=ctx.author.color).add_field(name=f"Who Is Who but a Who!",
-                                                                value="Some have an incomprehensible nickname, and you want to know who they are, or need to change their nickname, then type /whois <username> and get that information!")
-        adminembed5.set_image(url=self.bot.user.avatar_url)
-        adminembed5.set_footer(text='Page 5/20')
-        adminembed6 = discord.Embed(color=ctx.author.color).add_field(name=f"A member being obnixious is the voice, or text channel?",
-                                                                value="Type `/tempmute <member_name> <time_in_seconds> <reason>` to mute them")
-        adminembed6.set_image(url=self.bot.user.avatar_url)
-        adminembed6.set_footer(text='Page 6/20')
-
-        paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=True)
-        paginator.add_reaction('⏮️', "first")
-        paginator.add_reaction('⏪', "back")
-        paginator.add_reaction('⏩', "next")
-        paginator.add_reaction('⏭️', "last")
-        adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6]
-        await paginator.run(adminembeds)
-        await asyncio.sleep(90)
-        await adminembeds.delete()
-
+#* fix commented out lines. it's supposed to print the bots we use in the discord
     @commands.command(aliases=["buttlerstats"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def serverinfo(self, ctx):
         role_count = len(ctx.guild.roles)
+        # bots = discord.utils.get(ctx.guild.roles([member.mention for member in role.members if member.bot]))  
         emoji_count = len(ctx.guild.emojis)
         channel_count = len([x for x in ctx.guild.channels if isinstance(x, discord.channel.TextChannel)])
-        embed2 = discord.Embed(timestamp=ctx.message.created_at)
+        embed2 = discord.Embed(timestamp=ctx.message.created_at, color=ctx.author.color)
         embed2.add_field(name='Name (ID)', value=f"{ctx.guild.name} ({ctx.guild.id})", inline=False)
-        embed2.add_field(name='Owner', value=ctx.guild.owner, inline=False)
-        embed2.add_field(name='Members', value=ctx.guild.member_count, inline=False)
+        embed2.add_field(name='Owner', value=ctx.guild.owner.display_name, inline=False)
         embed2.add_field(name='Verification Level', value=str(ctx.guild.verification_level), inline=False)
         embed2.add_field(name='Highest role', value=ctx.guild.roles[-1], inline=False)
+        embed2.add_field(name='Role Members', value=f'{self.bot.get_user(mekasu).display_name} {self.bot.get_user(kastien).display_name}', inline=False)
         embed2.add_field(name='Number of roles', value=str(role_count), inline=False)
+        embed2.add_field(name='Members', value=ctx.guild.member_count, inline=False)
+        # embed2.add_field(name='Bots', value=(bots))
         embed2.add_field(name='Created At', value=ctx.guild.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'), inline=False)
         embed2.set_thumbnail(url=ctx.guild.icon_url)
         embed2.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         embed2.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
         await ctx.send(embed=embed2)
 
+#* add in reason
+
     @commands.command(aliases=["buttlerchangenick"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def changemembernickname(self, ctx, member:discord.Member, nick):
         existing_nick = member.display_name
         new_nick = await member.edit(nick=nick)
-        nickembed = discord.Embed(colour=0xFB2605, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {nick}")
+        nickembed = discord.Embed(color=ctx.author.color, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {nick}")
         await member.send(embed=nickembed)
 
     @commands.command(aliases=["buttlerpurge"])
@@ -106,7 +75,7 @@ class Administration(commands.Cog):
         else:
             game = None
         voice_state = None if not user.voice else user.voice.channel
-        embed1 = discord.Embed(timestamp=ctx.message.created_at)
+        embed1 = discord.Embed(timestamp=ctx.message.created_at, color=ctx.author.color)
         embed1.add_field(name='User ID', value=user.id, inline=True)
         embed1.add_field(name='Nick', value=user.nick, inline=True)
         embed1.add_field(name='Status', value=user.status, inline=True)
@@ -139,19 +108,23 @@ class Administration(commands.Cog):
         await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
         await ctx.send(f'{self.bot.user.name} has unlocked this channel.')
 
+#* fix me - TypeError: sequence item 0: expected str instance, list found
+
     @commands.command(aliases=["buttlerlistmembers"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def listmembers(self, ctx, datetime):
-        now = datetime.datetime.now()+datetime.timedelta(minutes=5)
+    async def listmembers(self, ctx):
+        
         members = []
         for m in ctx.guild.members:
             if not m.bot:
                 members.append(m.name)
 
-                #stuff1 = discord.Embed(timestamp=now, color=discord.Colour.purple(), title=f"Members:", description=f"""{(", ".join([members]))}""")
+        stuff1 = discord.Embed(color=discord.Colour.purple(), title=f"Members:", description=f"""{(", ".join([members]))}""")
+        stuff1.timestamp = datetime.datetime.utcnow()
 
-        channel = self.bot.get_channel(STDOUT)
-        await channel.send(", ".join(members))
+        channel = self.bot.get_channel(BOTOUTPUT)
+        # await channel.send(", ".join(members))
+        await channel.send(embed=stuff1)
 
 
 def setup(bot):
