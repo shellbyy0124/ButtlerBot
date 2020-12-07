@@ -206,3 +206,91 @@ async def tempmute_user(ctx,member:discord.Member,time:int,*,reason=None):
                                                                         value=f"{member.name} has been unmuted after {time}.")
     await member.remove_roles(user_role)
     await ctx.send(embed = emed)
+
+
+#* only usable by one person at the time. needs jason, and for user_id, and answers to be written to the json file
+    on_apply = []
+    @commands.command(aliases=['buttlerstaffapp1'])
+    async def apply(ctx):
+        if len(on_apply) == 0:
+            print(on_apply)
+            embed = discord.Embed(description='Welcome To The Apply Menu, Type Ready When Ready')
+            msg = await ctx.send(embed=embed)
+            def check(m):
+                return m.author.id == ctx.author.id
+            m = await bot.wait_for('message', check=check)
+            if m.content.lower() == 'ready':
+                await m.delete()
+                on_apply.append(str(ctx.author.id))
+                embed = discord.Embed(description='Please Choose The One You Wanna apply for\n🇦 Community Helpers\n🇧 Moderators\n🇨 Admins')
+                await msg.edit(embed=embed)
+                await msg.add_reaction('🇦')
+                await msg.add_reaction('🇧')
+                await msg.add_reaction('🇨')
+                def check1(r, u):
+                    return str(r.emoji) in ['🇦', '🇧', '🇨'] and u.id == ctx.author.id
+                r, u = await bot.wait_for('reaction_add', check=check1)
+                if str(r.emoji) == '🇦':
+                    await msg.remove_reaction('🇦', bot.user)
+                    await msg.remove_reaction('🇦', ctx.author)
+                    await msg.remove_reaction('🇧', bot.user)
+                    await msg.remove_reaction('🇨', bot.user)
+                    embed = discord.Embed(description='What Makes You Believe You Can Join us ?')
+                    await msg.edit(embed=embed)
+                    m = await bot.wait_for('message', check = check)
+                    first_msg = m
+                    await m.delete()
+                    channel = bot.get_channel(739248055680761986)
+                    embed = discord.Embed(description=f'Answer: {first_msg.content}\n Applied For **Community Helpers**')
+                    embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+                    await channel.send(embed=embed)
+                    await msg.delete()
+                    embed = discord.Embed(description=f'Your Apply Was Succesfuly Delivered To Mods And Will Be Checked As Soon As Possible')
+                    await ctx.send(embed=embed, delete_after=3)
+                    on_apply.remove(str(ctx.author.id))
+
+                elif str(r.emoji) == '🇧':
+                    await msg.remove_reaction('🇧', bot.user)
+                    await msg.remove_reaction('🇧', ctx.author)
+                    await msg.remove_reaction('🇨', bot.user)
+                    await msg.remove_reaction('🇦', bot.user)
+                    embed = discord.Embed(description='What Makes You Believe You Can Join us ?')
+                    await msg.edit(embed=embed)
+                    m = await bot.wait_for('message', check = check)
+                    first_msg = m
+                    await m.delete()
+                    channel = bot.get_channel(739248055680761986)
+                    embed = discord.Embed(description=f'Answer: {first_msg.content}\n Applied For **Moderators**')
+                    embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+                    await channel.send(embed=embed)
+                    await msg.delete()
+                    embed = discord.Embed(description=f'Your Apply Was Succesfuly Delivered To Mods And Will Be Checked As Soon As Possible')
+                    await ctx.send(embed=embed, delete_after=3)
+                    on_apply.remove(str(ctx.author.id))
+
+                elif str(r.emoji) == '🇨':
+                    await msg.remove_reaction('🇨', ctx.author)
+                    await msg.remove_reaction('🇨', bot.user)
+                    await msg.remove_reaction('🇧', bot.user)
+                    await msg.remove_reaction('🇦', bot.user)
+                    embed = discord.Embed(description='What Makes You Believe You Can Join us ?')
+                    await msg.edit(embed=embed)
+                    m = await bot.wait_for('message', check = check)
+                    first_msg = m
+                    await m.delete()
+                    channel = bot.get_channel(739248055680761986)
+                    embed = discord.Embed(description=f'Answer: {first_msg.content}\n Applied For **Admins**')
+                    embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+                    await channel.send(embed=embed)
+                    await msg.delete()
+                    embed = discord.Embed(description=f'Your Apply Was Succesfuly Delivered To Mods And Will Be Checked As Soon As Possible')
+                    await ctx.send(embed=embed, delete_after=3)
+                    on_apply.remove(str(ctx.author.id))
+
+            else:
+                await msg.delete()
+                await ctx.message.delete()
+        else:
+            embed = discord.Embed(description='Someone is already Applying ...')
+            await ctx.send(embed=embed, delete_after=5)
+            await ctx.message.delete()

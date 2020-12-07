@@ -43,7 +43,7 @@ async def on_ready():
     kastien = bot.get_user(770311161559646299)
 
     onready = discord.Embed(color = color, title=f"{bot.user.name}").add_field(name=f"Welcome To {bot.user.name}", value=f"Hi! I'm {bot.user.name}, and I'll be your guide! If you need assistance, please type `>buttlerhelp` and I'll be right there!")
-    onready.set_image(url=bot.user.avatar_url)
+    onready.set_thumbnail(url=bot.user.avatar_url)
     onready.set_footer(text=f"Created By: {mekasu.name} and {kastien.name}")
     onready.timestamp = datetime.datetime.utcnow()
 
@@ -57,6 +57,7 @@ bot.load_extension("cogs.menu")
 bot.load_extension("cogs.rules")
 bot.load_extension("cogs.staff")
 bot.load_extension("cogs.staffapplication")
+bot.load_extension("cogs.dev")
 
 
 bot.run(TOKEN)

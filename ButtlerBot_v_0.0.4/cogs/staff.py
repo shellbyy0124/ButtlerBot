@@ -99,6 +99,8 @@ class Administration(commands.Cog):
         await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
         await ctx.send(f'{self.bot.user.name} has locked this channel.')
 
+        await member.send(f"We have been spammed/hacked within the discord community. {ctx.author} has locked down {channel}")
+
     @commands.command(aliases=["buttlerunlock"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def unlock(self, ctx, channel : discord.TextChannel=None):
@@ -108,23 +110,6 @@ class Administration(commands.Cog):
         await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
         await ctx.send(f'{self.bot.user.name} has unlocked this channel.')
 
-#* fix me - TypeError: sequence item 0: expected str instance, list found
-
-    @commands.command(aliases=["buttlerlistmembers"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def listmembers(self, ctx):
-        
-        members = []
-        for m in ctx.guild.members:
-            if not m.bot:
-                members.append(m.name)
-
-        stuff1 = discord.Embed(color=discord.Colour.purple(), title=f"Members:", description=f"""{(", ".join([members]))}""")
-        stuff1.timestamp = datetime.datetime.utcnow()
-
-        channel = self.bot.get_channel(BOTOUTPUT)
-        # await channel.send(", ".join(members))
-        await channel.send(embed=stuff1)
 
 
 def setup(bot):

@@ -1,5 +1,7 @@
+from os import error
 import discord
 import json
+import random
 
 from discord.ext import commands
 from discord.ext.commands import Cog
@@ -9,6 +11,9 @@ with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding=
     data = json.load(f)
 
 BOTOUTPUT = data["BOTOUTPUT"]
+kastien = data["kastien"]
+mekasu = data["mekasu"]
+TheOnlyCarl = data["TheOnlyCarl"]
 
 class StaffApplication(commands.Cog):
 
@@ -21,41 +26,48 @@ class StaffApplication(commands.Cog):
 
         member = ctx.author
 
-        embed1 = discord.Embed(color=discord.Colour.purple(), title="Welcome To Your Staff Application.", description="Please answer all questions fully, accurately, and honestly. Type `Ready` when you're ready.")
-        embed2 = discord.Embed(color=discord.Colour.red(), title="Question 1:", description="Please Enter Your Discord Name: (name#0000)")
-        errormsg = "Sorry, but you have entered an invalid name. please try again:"
-        embed3 = discord.Embed(color=discord.Colour.blue(), title="Question 2:", description="Please Enter Your Email (email@email.com)")
-        embed4 = discord.Embed(color=discord.Colour.green(), title="Question 3:", description="What makes you believe you would be an asset to the staff team?")
-        embed5 = discord.Embed(color=discord.Colour.from_rgb(0, 255, 255), title="Question 4:", description=f"How long have you been in {ctx.guild.name}?")
+        first_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Welcome To Your Staff Application, {member}", description="All applicants will start as a Community Helper, and you will have to work your way up. The purpose of this application is for us to get to know our applicants better as they transition into staff members. Type `Ready` when you're ready.")
+        errormsg = "Sorry, but you have entered an invalid entry. please try again by starting your application over"
 
-        await member.send(embed=embed1)
+        msg1 = await member.send(embed=first_message)
         answer1 = await self.bot.wait_for('message')
 
-        if answer1 == 'Ready':
-            
-            await member.send(embed=embed2)
-            answer2 = self.bot.wait_for('message')
+        if answer1.content.lower() == "ready":
 
-            if answer2 == member:
 
-                await member.send(embed=embed3)
-                # answer3 = await self.bot.wait_for('message')
+            second_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Applicant: {ctx.author.name}\nQuestion 1:", description=f"What is your age?")
 
-                # if answer3 == :
+            await msg1.edit(embed=second_message)
+            answer2 = await self.bot.wait_for('message')
 
-                #     await member.send(embed=embed4)
-                #     answer4 = await self.bot.wait_For('message')
+            age1 = 16
 
-                #     if answer4 == :
+            if int(answer2.content) < age1:
+                
+                return await member.send(f"Apologies {ctx.author.name}, but you must be at least 16 year's old to apply for staff within this community")
 
-                #         await member.send(embed=embed5)
-                #         answer5 = await self.bot.wait_for('message')
+            third_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Applicant: {ctx.author.name}\nAge: {answer2}\nQuestion 3:', description=f'Why do you believe you would make a great asset to the ButtlerBot staff team?')
+            await msg1.edit(embed=third_message)
+            answer3 = await self.bot.wait_for('message')
 
-        else:
+            fourth_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Finished!', description=f'Congratulations, {ctx.author.name}! Your application has been submitted to the staff. Your confirmation number is {confirmation_number}')
 
-            await member.send(errormsg)
-            await member.send(embed=embed2)
+        
+        # final_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"""Buttler Staff Application For: {ctx.author}",
+        #                                                                         value=f"Name: {ctx.author.display_name}
+        #                                                                         Discord Name: {ctx.author}
+        #                                                                         Discord ID: {ctx.author.id}
+        #                                                                         Current Roles: {self.bot.get_roles(ctx.author)}
+        #                                                                         Discord Member Since: {ctx.author.created_at}
+        #                                                                         {ctx.guild.name} Member Since: {ctx.author.joined_at}""")
+        # channel = self.bot.get_channel(BOTOUTPUT)
+        # await channel.send(embed=final_message)
 
+
+
+
+
+    
 
 def setup(bot):
     bot.add_cog(StaffApplication(bot))
