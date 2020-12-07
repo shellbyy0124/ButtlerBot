@@ -3,6 +3,7 @@ import discord
 
 from discord.ext import commands
 from discord.ext.commands import Cog
+# test
 
 class RandomNumberGenerator(commands.Cog):
 
