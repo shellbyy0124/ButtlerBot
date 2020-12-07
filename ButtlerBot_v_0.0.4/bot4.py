@@ -4,7 +4,6 @@ import random
 import os
 import asyncio
 import datetime
-import pytz
 
 from os import error
 from discord import member
