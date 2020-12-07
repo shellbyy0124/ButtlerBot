@@ -26,7 +26,8 @@ class StaffApplication(commands.Cog):
 
         member = ctx.author
 
-        first_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Welcome To Your Staff Application, {member}", description="All applicants will start as a Community Helper, and you will have to work your way up. The purpose of this application is for us to get to know our applicants better as they transition into staff members. Type `Ready` when you're ready.")
+        first_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Welcome To Your Staff Application, {member}", description="All applicants will start as a Community Helper").add_field(name="\u200b", value="You will have to work your way up. The purpose of this application is for us to get to know our applicants better as they transition into staff members. Type `Ready` when you're ready.")
+        
         errormsg = "Sorry, but you have entered an invalid entry. please try again by starting your application over"
 
         msg1 = await member.send(embed=first_message)
@@ -35,10 +36,13 @@ class StaffApplication(commands.Cog):
         if answer1.content.lower() == "ready":
 
 
-            second_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Applicant: {ctx.author.name}\nQuestion 1:", description=f"What is your age?")
+            second_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Application:", description=f"Name: {ctx.author.name}\n\nWhat is your age?")
 
             await msg1.edit(embed=second_message)
-            answer2 = await self.bot.wait_for('message')
+            def check(m):
+                return m.author.id == member.id
+
+            answer2 = await self.bot.wait_for('message', check=check)
 
             age1 = 16
 
@@ -46,28 +50,32 @@ class StaffApplication(commands.Cog):
                 
                 return await member.send(f"Apologies {ctx.author.name}, but you must be at least 16 year's old to apply for staff within this community")
 
-            third_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Applicant: {ctx.author.name}\nAge: {answer2}\nQuestion 3:', description=f'Why do you believe you would make a great asset to the ButtlerBot staff team?')
+            third_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Application:').add_field(name="\u200b", value=f'Name: {ctx.author.name}\nAge: {int(answer2.content)}\n\n\nWhy do you believe you would make a great asset to the ButtlerBot staff team?')
             await msg1.edit(embed=third_message)
+            def check(m):
+                return m.author.id == member.id
+
             answer3 = await self.bot.wait_for('message')
 
-            fourth_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Finished!', description=f'Congratulations, {ctx.author.name}! Your application has been submitted to the staff. Your confirmation number is {confirmation_number}')
+            fourth_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f'Finished!', description=f'Congratulations, {ctx.author.name}! Your application has been submitted to the staff.')
+            await msg1.edit(embed=fourth_message)
 
-        
-        # final_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"""Buttler Staff Application For: {ctx.author}",
-        #                                                                         value=f"Name: {ctx.author.display_name}
-        #                                                                         Discord Name: {ctx.author}
-        #                                                                         Discord ID: {ctx.author.id}
-        #                                                                         Current Roles: {self.bot.get_roles(ctx.author)}
-        #                                                                         Discord Member Since: {ctx.author.created_at}
-        #                                                                         {ctx.guild.name} Member Since: {ctx.author.joined_at}""")
-        # channel = self.bot.get_channel(BOTOUTPUT)
-        # await channel.send(embed=final_message)
+            roles = member.roles
+            list_names = [role.name for role in roles]
+
+            final_message = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Application:", value=f"""Buttler Staff Application For: {ctx.author.name}"
+                                                                                                            Name: {ctx.author.display_name}
+                                                                                                            Discord Name: {ctx.author}
+                                                                                                            Discord ID: {ctx.author.id}
+                                                                                                            Age: {answer2}
+                                                                                                            Current Roles: {', '.join(list_names)}"
+                                                                                                            Discord Member Since: {ctx.author.created_at}
+                                                                                                            {ctx.guild.name} Member Since: {ctx.author.joined_at}""")
+            final_message.add_field(name="\u200b", value=f"{answer3}")
+            channel = self.bot.get_channel(BOTOUTPUT)
+            await channel.send(embed=final_message)
 
 
-
-
-
-    
-
+                                                                                                            
 def setup(bot):
     bot.add_cog(StaffApplication(bot))

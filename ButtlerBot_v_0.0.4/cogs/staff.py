@@ -25,7 +25,7 @@ class Administration(commands.Cog):
 
 #* fix commented out lines. it's supposed to print the bots we use in the discord
     @commands.command(aliases=["buttlerstats"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def serverinfo(self, ctx):
         role_count = len(ctx.guild.roles)
         # bots = discord.utils.get(ctx.guild.roles([member.mention for member in role.members if member.bot]))  
@@ -49,7 +49,7 @@ class Administration(commands.Cog):
 #* add in reason
 
     @commands.command(aliases=["buttlerchangenick"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def changemembernickname(self, ctx, member:discord.Member, nick):
         existing_nick = member.display_name
         new_nick = await member.edit(nick=nick)
@@ -65,7 +65,7 @@ class Administration(commands.Cog):
         await msg.delete()
 
     @commands.command(aliases=["buttlerwhois"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def whois(self, ctx, user: discord.Member):
         user = user or ctx.author
         if user is None:
@@ -91,7 +91,7 @@ class Administration(commands.Cog):
         await ctx.send(embed=embed1)
 
     @commands.command(aliases=["buttlerlock"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def lock(self, ctx, channel : discord.TextChannel=None):
         channel = channel or ctx.channel
         overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -102,7 +102,7 @@ class Administration(commands.Cog):
         await member.send(f"We have been spammed/hacked within the discord community. {ctx.author} has locked down {channel}")
 
     @commands.command(aliases=["buttlerunlock"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def unlock(self, ctx, channel : discord.TextChannel=None):
         channel = channel or ctx.channel
         overwrite = channel.overwrites_for(ctx.guild.default_role)
@@ -111,6 +111,35 @@ class Administration(commands.Cog):
         await ctx.send(f'{self.bot.user.name} has unlocked this channel.')
 
 
+    @commands.command(aliases=['buttlerwarn'])
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    async def warn(self, ctx, member:discord.Member, reason):
+
+        warn = discord.Embed(title=f'{ctx.author} has sent you a warning!').add_field(name="\u200b", value=f'{reason}', inline=False)
+        warn1 = discord.Embed(title=f'{ctx.author} has sent a warning to {member} for {reason}', inline=False)
+
+        await member.send(embed=warn)
+        channel = self.bot.get_channel(BOTOUTPUT)
+        await channel.send(embed=warn1)
+
+
+    @commands.command(name="hush", aliases=['shutdown'])
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Team Leader')
+    async def shutdown(ctx, channel:discord.TextChannel=None, role:discord.Role=None):
+    
+        admin_roles = ('Owner', 'Head Dev', 'Head Admin')
+        admin = True
+        roles = [discord.utils.get(ctx.guild.roles, name = x) for x in admin_roles] # 'administration' has no attribute 'guild'
+        for role in roles:
+            if role is not None and role in ctx.author.roles:
+                admin = True
+            if channel is None:
+                channel = ctx.channel
+            if admin:
+                await ctx.send(f'{ctx.author} has initiated a lockdown!')
+                await channel.set_permissions(role, send_messages=False)
+            else:
+                await ctx.send("YOU DO NOT HAVE THE REQUIRED PERMISSIONS TO USE THIS COMMAND!")
 
 def setup(bot):
     bot.add_cog(Administration(bot))

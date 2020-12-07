@@ -4,6 +4,8 @@ import random
 import os
 import asyncio
 import datetime
+import pytz
+import sqlite3
 
 from os import error
 from discord import member
@@ -13,6 +15,7 @@ from discord.ext.commands import cog
 from discord.ext import tasks
 from datetime import date
 from pytz import timezone
+
 
 with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
@@ -49,6 +52,8 @@ async def on_ready():
     channel = bot.get_channel(BOTOUTPUT)
     await channel.send(embed=onready)
 
+
+
 bot.load_extension("cogs.onjoin")
 bot.load_extension("cogs.botinformation")
 bot.load_extension("cogs.generalcommands")
@@ -57,6 +62,8 @@ bot.load_extension("cogs.rules")
 bot.load_extension("cogs.staff")
 bot.load_extension("cogs.staffapplication")
 bot.load_extension("cogs.dev")
+bot.load_extension("cogs.owner")
+bot.load_extension("cogs.taskloops")
 
 
 bot.run(TOKEN)
