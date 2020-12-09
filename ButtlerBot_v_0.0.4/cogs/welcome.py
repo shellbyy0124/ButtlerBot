@@ -2,11 +2,12 @@ import discord
 import json
 import random
 import datetime
+import sqlite3
 
 from discord.ext import commands
 from discord.ext.commands import Cog
 
-with open('/home/shellbyy/Desktop/repofolder/Mekasu/master.json', 'r', encoding='utf-8-sig') as f:
+with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 BOTOUTPUT = data["BOTOUTPUT"]
 KPT = data["KasMek_Programming_Team"]
@@ -43,7 +44,6 @@ class DMUser(commands.Cog):
 
         channel = self.bot.get_channel(779290533155176465)
         await channel.send(f'{member.mention} has left the server')
-
     
  
 def setup(bot):
