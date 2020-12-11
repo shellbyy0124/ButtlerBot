@@ -210,12 +210,16 @@ class HelpCommands(commands.Cog):
         adminembed9.set_thumbnail(url=self.bot.user.avatar_url)
         adminembed9.set_footer(text="Page 9/20")
         adminembed9.timestamp = datetime.datetime.now()
+        adminembed10 = discord.Embed(color=ctx.author.color).add_field(name="Need to make an announcement?", value="Use `>bannounce` and follow the prompts on the screens to follow to get your announcement amde :D")
+        adminembed10.set_thumbnail(url=self.bot.user.avatar_url)
+        adminembed10.set_footer(text="Page 10/20")
+        adminembed10.timestamp = datetime.datetime.utcnow()
         paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=True)
         paginator.add_reaction('⏮️', "first")
         paginator.add_reaction('⏪', "back")
         paginator.add_reaction('⏩', "next")
         paginator.add_reaction('⏭️', "last")
-        adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6, adminembed7, adminembed8, adminembed9]
+        adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6, adminembed7, adminembed8, adminembed9, adminembed10]
         await paginator.run(adminembeds)
         await asyncio.sleep(90)
         await adminembeds.delete()

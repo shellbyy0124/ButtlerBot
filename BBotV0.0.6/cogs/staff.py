@@ -18,6 +18,10 @@ with open('./master.json', 'r', encoding='utf-8-sig') as f:
 BOTOUTPUT = data["BOTOUTPUT"]
 mekasu = data["mekasu"]
 kastien = data["kastien"]
+bot_updates = data["bot_updates"]
+community_updates = data["community_updates"]
+staff_commands = data["staff_commands"]
+
 
 class Administration(commands.Cog):
 
@@ -45,23 +49,24 @@ class Administration(commands.Cog):
         embed2.set_thumbnail(url=ctx.guild.icon_url)
         embed2.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         embed2.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await ctx.send(embed=embed2)
+        channel = self.bot.get_channel(staff_commands)
+        await channel.send(embed=embed2)
+
 
     @commands.command(aliases=["bcnick"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def changemembernickname(self, ctx, member:discord.Member, nick, reason):
         existing_nick = member.display_name
         new_nick = await member.edit(nick=nick)
-        nickembed = discord.Embed(color=ctx.author.color, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {nick}, because {reason}")
+        nickembed = discord.Embed(color=ctx.author.color, title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {new_nick}, because {reason}")
         await member.send(embed=nickembed)
+
 
     @commands.command(aliases=["bpurge"])
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount:int):
         await ctx.channel.purge(limit=amount)
-        msg = await ctx.send(f"{self.bot.user.name} has purged {amount} messages from this channel!")
-        await asyncio.sleep(10)
-        await msg.delete()
+
 
     @commands.command(aliases=["bwhois"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -87,7 +92,9 @@ class Administration(commands.Cog):
         embed1.set_thumbnail(url=user.avatar_url)
         embed1.set_author(name=user.name, icon_url=user.avatar_url)
         embed1.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await ctx.send(embed=embed1)
+        channel = self.bot.get_channel(staff_commands)
+        await channel.send(embed=embed1)
+
 
     @commands.command(aliases=["block"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -98,7 +105,6 @@ class Administration(commands.Cog):
         await channel.set_permissions(ctx.guild.default_role, overwrite=overwrite)
         await ctx.send(f'{self.bot.user.name} has locked this channel.')
 
-        await member.send(f"We have been spammed/hacked within the discord community. {ctx.author} has locked down {channel}")
 
     @commands.command(aliases=["bunlock"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -123,138 +129,64 @@ class Administration(commands.Cog):
 
 #* needs fixing
 
-    @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def btempmute(self, ctx, member:discord.Member, time:int, *, reason=None):
+    # @commands.command()
+    # @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    # async def btempmute(self, ctx, member:discord.Member, time:int, *, reason=None):
 
-        tempmute1 = discord.Embed(colour = discord.Colour.red(), title="Tempmute",description=f"{member.name} was muted by {ctx.author.name}").add_field(name="\u200b", value=f'{reason} for {time}seconds')
-        tempmute1.timestamp = datetime.datetime.utcnow()
+    #     tempmute1 = discord.Embed(colour = discord.Colour.red(), title="Tempmute",description=f"{member.name} was muted by {ctx.author.name}").add_field(name="\u200b", value=f'{reason} for {time}seconds')
+    #     tempmute1.timestamp = datetime.datetime.utcnow()
 
-        channel = self.bot.get_channel(BOTOUTPUT)
-        await channel.send(embed = tempmute1)
+    #     channel = self.bot.get_channel(BOTOUTPUT)
+    #     await channel.send(embed = tempmute1)
 
-        muted_role = discord.utils.get(ctx.guild.roles,name="muted")
-        roles = self.server.get_member(member.id).roles
-        user_roles = [role.name for role in roles]
+    #     muted_role = discord.utils.get(ctx.guild.roles,name="muted")
+    #     roles = self.server.get_member(member.id).roles
+    #     user_roles = [role.name for role in roles]
 
-        tempmute2 = discord.Embed(colour = discord.Colour.red(), title =f"You Have been Muted!", description=f"you have been muted for {time}, because {reason}")
-        tempmute2.timestamp = datetime.datetime.utcnow()
+    #     tempmute2 = discord.Embed(colour = discord.Colour.red(), title =f"You Have been Muted!", description=f"you have been muted for {time}, because {reason}")
+    #     tempmute2.timestamp = datetime.datetime.utcnow()
 
-        msg1 = await member.send(emed=tempmute2)
-        await member.remove_roles(user_roles, reason=reason)
-        await member.add_roles(muted_role,reason=reason)
+    #     msg1 = await member.send(emed=tempmute2)
+    #     await member.remove_roles(user_roles, reason=reason)
+    #     await member.add_roles(muted_role,reason=reason)
 
-        await asyncio.sleep(time)
+    #     await asyncio.sleep(time)
 
-        await member.remove_roles(muted_role)
-        await member.add_roles(user_roles)
+    #     await member.remove_roles(muted_role)
+    #     await member.add_roles(user_roles)
 
-        tempmute3 = discord.Embed(color=discord.Colour.green(), title="You Have Been Unmuted. Please Continue With Your Activities :)")
+    #     tempmute3 = discord.Embed(color=discord.Colour.green(), title="You Have Been Unmuted. Please Continue With Your Activities :)")
         
-        await msg1.edit(embed=tempmute3)
+    #     await msg1.edit(embed=tempmute3)
 
-        number1 = random.randint(100000, 999999)
+    #     number1 = random.randint(100000, 999999)
 
-        if time > 1800:
+    #     if time > 1800:
 
-            appealembed1 = discord.Embed(color=discord.Colour.blue(), title="Your tempmute time is greater than 30 minutes. If you would like to submit an appeal, please type `appeal`.")
-            appealembed1.timestamp = datetime.datetime.utcnow()
-            await member.send(embed=appealembed1)
+    #         appealembed1 = discord.Embed(color=discord.Colour.blue(), title="Your tempmute time is greater than 30 minutes. If you would like to submit an appeal, please type `appeal`.")
+    #         appealembed1.timestamp = datetime.datetime.utcnow()
+    #         await member.send(embed=appealembed1)
 
-            appeal1 = await self.bot.wait_for('message')
+    #         appeal1 = await self.bot.wait_for('message')
 
-            if appeal1.content == "appeal":
-                pass
-            else:
-                return await member.send("Please Enter `appeal`!")
-                #some code to restart function from here
+    #         if appeal1.content == "appeal":
+    #             pass
+    #         else:
+    #             return await member.send("Please Enter `appeal`!")
+    #             #some code to restart function from here
 
-            appealembed2 = discord.Embed(color=discord.Colour.blue(), title=f"Appeal {number1}", description=f"Name: {member.name}\nAppeal Number: {number1}")
-            appealembed2.timestamp = datetime.datetime.utcnow()
+    #         appealembed2 = discord.Embed(color=discord.Colour.blue(), title=f"Appeal {number1}", description=f"Name: {member.name}\nAppeal Number: {number1}")
+    #         appealembed2.timestamp = datetime.datetime.utcnow()
 
-            await appeal1.edit(embed=appealembed2)
+    #         await appeal1.edit(embed=appealembed2)
 
-            appeal2 = await self.bot.wait_for('message')
+    #         appeal2 = await self.bot.wait_for('message')
 
-            if all(x.isalpha() or x.isspace() for x in appeal2.content):
-                pass
-            else:
-                return await member.send("That is not a valid entry, Please Try Again!")
-                #some code to restart function from here
-        
-        
-    @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def bannounce(self, ctx):
-
-        ann1 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Buttler Announcement Editor:", description="What channel is your announcement for?\n\nEnter A for Bot Updates\nEnter B for Community Updatess")
-        
-        ques1 = await ctx.send(embed=ann1)
-        ans1 = await self.bot.wait_for('message')
-
-        A = "a"
-        B = "b"
-
-        if ans1.content.lower() == A:
-
-            ques2 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the name of the announcement.")
-            await ques1.edit(embed=ques2)
-            ans2 = await self.bot.wait_for('message')
-
-            ques3 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter your announcement")
-            await ques1.edit(embed=ques3)
-            ans3 = await self.bot.wait_for('message')
-
-            if all(x.isalpha() or x.isspace() for x in ans2.content):
-                pass
-            else:
-                return await member.send("That is not a valid entry, Try Again!")
-                # some code to restart function from here
-
-        
-            finale = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"**___ANNOUNCEMENT___**:")
-            finale.add_field(name=f"{ans2.content}", value=f"{ans3.content}")
-
-            await ans1.delete()
-            await ques1.delete()
-            await ans2.delete()
-            await ans3.delete()
-            
-            channel = self.bot.get_channel(BOTOUTPUT)
-            await channel.send(embed=finale)
-
-        elif ans1.content.lower() == B:
-            
-            ques4 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the name of the announcement.")
-            await ques1.edit(embed=ques4)
-            ans4 = await self.bot.wait_for('message')
-
-            if all(y.isalpha() or y.isspace() for y in ans4.content):
-                pass
-            else:
-                return await ctx.send("Sorry that is not a valid announcement. Please run the command again.")
-                # some code to restart function from here
-
-            ques5 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the announcement")
-            await ques1.edit(embed=ques5)
-            ans5 = await self.bot.wait_for('message')
-
-            finale2 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="**___ANNOUNCEMENT___**:")
-            finale2.add_field(name=f"{ans4.content}", value=f"{ans5.content}")
-
-            await ans1.delete()
-            await ques1.delete()
-            await ans4.delete()
-            await ans5.delete()
-
-            channel = self.bot.get_channel(BOTOUTPUT)
-            await channel.send(embed=finale2)
-
-        else:
-            raise error
-
-
-
+    #         if all(x.isalpha() or x.isspace() for x in appeal2.content):
+    #             pass
+    #         else:
+    #             return await member.send("That is not a valid entry, Please Try Again!")
+    #             #some code to restart function from here
 
 
 

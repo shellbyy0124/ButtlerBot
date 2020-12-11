@@ -4,6 +4,7 @@ import random
 import datetime
 import sqlite3
 import os
+import asyncio
 
 from os import error
 from discord.ext import commands
@@ -18,6 +19,9 @@ TOKEN = data["BUTTLER_TOKEN"]
 BOTOUTPUT = data["BOTOUTPUT"]
 KPT = data["KasMek_Programming_Team"]
 command_prefix = data["command_prefix"]
+bot_spam = data["bot_spam"]
+members_join_and_leave = data["members_join_and_leave"]
+LT = data["LT"]
 
 intents = discord.Intents.all()
 
@@ -33,6 +37,8 @@ bot.load_extension("cogs.staff")
 bot.load_extension("cogs.staffapplication")
 bot.load_extension("cogs.taskloops")
 bot.load_extension("cogs.welcome")
+bot.load_extension("cogs.faqs")
+bot.load_extension("cogs.announcement")
 
 @bot.event
 async def on_ready():
@@ -47,9 +53,10 @@ async def on_ready():
     onready.set_footer(text=f"Created By: {mekasu.name} and {kastien.name}")
     onready.timestamp = datetime.datetime.utcnow()
 
-    channel = bot.get_channel(BOTOUTPUT)
-    await channel.send(embed=onready)
-
+    channel = bot.get_channel(bot_spam)
+    msg = await channel.send(embed=onready)
+    await asyncio.sleep(5)
+    await msg.delete()
 
 @bot.event
 async def on_member_join(member:discord.Member):
@@ -65,44 +72,35 @@ async def on_member_join(member:discord.Member):
     welcome.add_field(name="Seventh:", value="No Intimidation! We grow and learn together from day one and on", inline=False)
     welcome.add_field(name="Eighth:", value="Use the proper markups when submitting code. Discord supports many languages!", inline=False)
     welcome.add_field(name="And Finally:", value="If you have any more questions, use `>buttlerhelp` to call me, and if you'd like to get a better look at the rules, `>buttlerrules`", inline=False)
-    welcome.set_thumbnail(url=bot.user.avatar_url)
-    welcome.timestamp=datetime.datetime.now()
-    await member.send(embed=welcome)
+    welcome.add_field(name="Note:", value="This message will delete after 5 minutes. Once this message deletes, you will have access to the discord. If not, then please get in touch with a staff member!", inline=False)
+    msg = await member.send(embed=welcome)
+    channel = bot.get_channel(members_join_and_leave)
+    await channel.send(f"Let's welcome {member.name} to {bot.get_guild(LT).name}!")
+    await asyncio.sleep(300)
+    await msg.delete()
 
 @bot.event
 async def on_member_remove(member):
 
-    channel = bot.get_channel(BOTOUTPUT)
+    channel = bot.get_channel(members_join_and_leave)
     await channel.send(f'{member.mention} has left the server')
-
-
-@bot.event
-async def autorole(ctx):
-     pass
-
 
 @bot.listen('on_message') 
 async def stuff(message):
 
     if message.content.startswith("buttlerprefix"):
+        msg = await message.channel.send("my prefix is `>`")
+        await asyncio.sleep(10)
+        await msg.delete()
 
-        await message.channel.send("my prefix is `>`")
-
-# create dev command to add words to this list
-
-@bot.listen('on_message')
-async def filter(message):
-
-    filtered_words = ['fuck', 'shit', 'damn', 'dam', 'gd', 'god damn', 'bitch', 'mother fucker', 'mother fucking', 'shat', 'god dog', 'god dawg']
-
-    if any(i in message.content for i in filtered_words):
-
-        await message.delete()
-        await message.channel.send("Your message contained inappropriate words. Please rephrase your message")
+# @bot.event
+# async def on_message(message):
+#     if not message.author.bot:
+#         filtered_words = ['bad', 'noob']
+#         for word in filtered_words:
+#             if word in message.content:
+#                 await message.delete()
+#                 await message.author.send('What You Wanna Tell Them')
         
-        embed28 = discord.Embed(color=discord.Colour.red(), title =f"I have filtered {message.author}'s message as it had inappropriate language in it. Below you will find the message.")
-        embed28.add_field(name="\u200b", value=f"{message.content}")
-        channel = bot.get_channel(BOTOUTPUT)
-        await channel.send(embed=embed28)
 
 bot.run(TOKEN)

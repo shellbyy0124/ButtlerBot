@@ -8,6 +8,7 @@ from discord.ext.commands import Cog
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 BOTOUTPUT = data["BOTOUTPUT"]
+staff_commands = data["staff_commands"]
 
 class DevCommands(commands.Cog):
 
@@ -17,26 +18,19 @@ class DevCommands(commands.Cog):
 
 #* fix me. prints on every loop
     
-    @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Team Leader')
-    async def blistall(self, ctx):
-        
-        members = []
+    # @commands.command()
+    # @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Team Leader')
+    # async def blistall(self, ctx):
 
-        for m in ctx.guild.members:
-            if not m.bot:
-                members.append(m.name)
-        await ctx.send(members)
+    #     names = []
 
-        roles = []
+    #     for role.name in ctx.guild.roles:
+    #         if not role.managed:
+    #             list_of_names = [user.name for user in role.members]
+    #             names.append(list_of_names)
 
-        for r in ctx.guild.roles:
-            if r == "Bots":
-                pass
-            else:
-                roles.append(r.name)
-
-        await ctx.send(', '.join(roles[1:] + members))
+    #     channel = self.bot.get_channel(staff_commands)
+    #     await channel.send(f'{role.name}: {names}')
 
     @commands.command()
     @commands.has_any_role('Owner', 'Head Dev', 'Team Leader', 'Dev')
@@ -47,7 +41,9 @@ class DevCommands(commands.Cog):
         for m in ctx.guild.members:
             if not m.bot:
                 members.append(m.name)
-        await ctx.send(', '.join(members))
+
+        channel = self.bot.get_channel(staff_commands)
+        await channel.send(', '.join(members))
 
 
     @commands.command()
@@ -58,7 +54,7 @@ class DevCommands(commands.Cog):
             if not r.managed:
 
                 roles.append(r)
-        channel = self.bot.get_channel(BOTOUTPUT)
+        channel = self.bot.get_channel(staff_commands)
         await channel.send(", ".join(role.name for role in ctx.guild.roles[1:] if not role.managed and role.name != "Bots"))
 
 

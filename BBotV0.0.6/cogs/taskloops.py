@@ -15,13 +15,15 @@ class TaskLoops(commands.Cog):
     async def changepresence(self):
         """Will loop every 60 seconds and change the bots presence"""
         await self.bot.wait_until_ready()
-        await self.bot.change_presence(activity=discord.Game(name='if you cant remember, type /help!'))
+        await self.bot.change_presence(activity=discord.Game(name='if you cant remember, type >bhelp!'))
         await asyncio.sleep(10)
         await self.bot.change_presence(activity=discord.Game(name=f'Member count: TBD'))
         await asyncio.sleep(10)
         await self.bot.change_presence(activity=discord.Game(name='Released: 12/02/2020 By: Shellbyy'))
         await asyncio.sleep(10)
-        await self.bot.change_presence(activity=discord.Game(name='Team Members: Kastien-Dev, KortaPo'))
+        await self.bot.change_presence(activity=discord.Game(name='Team Members: Mekasu, Kastien-Dev, KortaPo'))
+        await asyncio.sleep(10)
+        await self.bot.change_presence(activity=discord.Game(name='buttlerprefix will tell you the bots prefix!'))
         await asyncio.sleep(10)
 
 def setup(bot):

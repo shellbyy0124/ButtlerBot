@@ -5,6 +5,7 @@ import aiohttp
 import random
 import datetime
 import os
+import asyncio
 
 from os import error
 from discord import member
@@ -38,7 +39,9 @@ class Rules(commands.Cog):
         embedrules1.add_field(name="Number 8:", value="No Intimidation! We grow and learn together from day one and on!", inline=False)
         embedrules1.add_field(name="Number 9:", value="Use the proper markups when submitting code. Discord supports many languages!", inline=False)
         embedrules1.add_field(name="**Disclaimer**:", value="These rules are subject to change at any time and will be posted to the announcements channel. This pyramid is at the staff discression as to the punishment they seem fit. You always have the right to appeal!", inline=False)
-        await ctx.send(embed=embedrules1)
+        msg = await ctx.send(embed=embedrules1)
+        await asyncio.sleep(120)
+        await msg.delete()
 
 
 
