@@ -163,9 +163,7 @@ class HelpCommands(commands.Cog):
         paginator.add_reaction('⏩', "next")
         paginator.add_reaction('⏭️', "last")
         embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10, embed11, embed12, embed13, embed14, embed15, embed16, embed17, embed18, embed19]
-        await paginator.run(embeds)
-
-
+        response = await paginator.run(embeds)
     
 def setup(bot):
     bot.add_cog(HelpCommands(bot))

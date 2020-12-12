@@ -15,13 +15,14 @@ from isort import logo
 
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-BOTOUTPUT = data["BOTOUTPUT"]
+
 mekasu = data["mekasu"]
 kastien = data["kastien"]
 bot_updates = data["bot_updates"]
 community_updates = data["community_updates"]
 staff_commands = data["staff_commands"]
-
+tempmutes = data["tempmutes"]
+warnings = data["warnings"]
 
 class Administration(commands.Cog):
 
@@ -124,24 +125,25 @@ class Administration(commands.Cog):
         warn1 = discord.Embed(color = discord.Colour.orange(), title=f'{ctx.author} has sent a warning to {member} for {reason}', inline=False)
 
         await member.send(embed=warn)
-        channel = self.bot.get_channel(BOTOUTPUT)
+        channel = self.bot.get_channel(warnings)
         await channel.send(embed=warn1)
 
-#* needs fixing
+    @commands.command(aliases=["!close"])
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
+    async def closesupportchannel(self, ctx):
+        if ctx.channel.category.name == 'Occupied_Support_Channels':
+            await ctx.channel.delete()
 
     # @commands.command()
     # @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admin', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     # async def btempmute(self, ctx, member:discord.Member, time:int, *, reason=None):
 
-    #     tempmute1 = discord.Embed(colour = discord.Colour.red(), title="Tempmute",description=f"{member.name} was muted by {ctx.author.name}").add_field(name="\u200b", value=f'{reason} for {time}seconds')
+    #     tempmute1 = discord.Embed(colour = discord.Colour.red(), title="Tempmute",description=f"{member.name} was muted by {ctx.author.name}, because {reason} for {time}seconds")
     #     tempmute1.timestamp = datetime.datetime.utcnow()
-
-    #     channel = self.bot.get_channel(BOTOUTPUT)
-    #     await channel.send(embed = tempmute1)
-
+        
     #     muted_role = discord.utils.get(ctx.guild.roles,name="muted")
     #     roles = self.server.get_member(member.id).roles
-    #     user_roles = [role.name for role in roles]
+    #     user_roles = [roles for role in ctx.guild.roles]
 
     #     tempmute2 = discord.Embed(colour = discord.Colour.red(), title =f"You Have been Muted!", description=f"you have been muted for {time}, because {reason}")
     #     tempmute2.timestamp = datetime.datetime.utcnow()

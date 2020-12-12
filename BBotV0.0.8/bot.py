@@ -22,6 +22,8 @@ command_prefix = data["command_prefix"]
 bot_spam = data["bot_spam"]
 members_join_and_leave = data["members_join_and_leave"]
 LT = data["LT"]
+mekasu = data["mekasu"]
+kastien = data["kastien"]
 
 intents = discord.Intents.all()
 
@@ -45,14 +47,9 @@ bot.load_extension("cogs.admin")
 @bot.event
 async def on_ready():
 
-    color = random.randint(0, 0xFFFFFF)
-
-    mekasu = bot.get_user(260009824945831936)
-    kastien = bot.get_user(770311161559646299)
-
-    onready = discord.Embed(color = color, title=f"{bot.user.name}").add_field(name=f"Mistress {mekasu.name},", value=f"Cogs have fully loadedmadame!")
+    onready = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"{bot.user.name}").add_field(name=f"Mistress {bot.get_user(mekasu).name},", value=f"Cogs have fully loadedmadame!")
     onready.set_thumbnail(url=bot.user.avatar_url)
-    onready.set_footer(text=f"Created By: {mekasu.name} and {kastien.name}")
+    onready.set_footer(text="Created By: Mekasu and Kastien")
     onready.timestamp = datetime.datetime.utcnow()
 
     channel = bot.get_channel(bot_spam)

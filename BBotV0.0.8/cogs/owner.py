@@ -11,7 +11,7 @@ with open('./master.json', 'r', encoding='utf-8-sig') as f:
 
 mekasu = data["mekasu"]
 kastien = data["kastien"]
-staff_commands = data["staff_commands"]
+owner = data["owner"]
 
 class OwnerCommands(commands.Cog):
 
@@ -29,7 +29,7 @@ class OwnerCommands(commands.Cog):
         owner1.timestamp = datetime.datetime.utcnow()
         owner1.set_thumbnail(url=self.bot.get_user(mekasu))
 
-        channel = self.bot.get_channel(staff_commands)
+        channel = self.bot.get_channel(owner)
         await channel.send(embed=owner1)
 
 
@@ -43,7 +43,7 @@ class OwnerCommands(commands.Cog):
         owner2.timestamp = datetime.datetime.utcnow()
         owner2.set_thumbnail(url=self.bot.get_user(kastien))
 
-        channel = self.bot.get_channel(staff_commands)
+        channel = self.bot.get_channel(owner)
         await channel.send(embed=owner2)
 
         
