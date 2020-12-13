@@ -20,13 +20,13 @@ class DevCommands(commands.Cog):
     async def blistall(self, ctx):
 
         text = []
-        channel = self.bot.get_channel(staff_commands)
         for role in ctx.guild.roles[1:]:
             if not role.managed:
                 if role.name != "Bots":
                     if role.name != "muted":
                         list_of_names = [user.name for user in role.members] 
                         text.append(f'{role.name}: {", ".join(list_of_names)}')
+        channel = self.bot.get_channel(staff_commands)
         await channel.send("\n".join(text))
 
     @commands.command()

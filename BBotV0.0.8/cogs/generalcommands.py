@@ -14,7 +14,7 @@ from discord.ext.commands import cog
 
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-BOTOUTPUT = data["BOTOUTPUT"]
+
 kastien = data["kastien"]
 mekasu = data["mekasu"]
 team_code_submissions = data["team_code_submissions"]

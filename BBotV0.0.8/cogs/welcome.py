@@ -9,8 +9,6 @@ from discord.ext.commands import Cog
 
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-BOTOUTPUT = data["BOTOUTPUT"]
-KPT = data["KasMek_Programming_Team"]
 
 
 
