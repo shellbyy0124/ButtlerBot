@@ -15,6 +15,11 @@ shellbyy = data["shellbyy"]
 TheOnlyCarl = data["TheOnlyCarl"]
 buttler_info = data["buttler_info"]
 
+<<<<<<< HEAD
+=======
+######### the colors in the buttlerinfo embed are for specific colors. please don't change them
+
+>>>>>>> 82429954658ea07342da2af95a73c41a0eb195c0
 
 class ButtlerInformation(commands.Cog):
 
