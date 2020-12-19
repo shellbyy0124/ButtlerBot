@@ -28,7 +28,7 @@ class Announcements(commands.Cog):
     async def bannounce(self, ctx):
 
         ann1 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Buttler Announcement Editor:", description="What channel is your announcement for?\n\nEnter A for Bot Updates\nEnter B for Community Updates\nEnter C for Bots being added to the discord. If you are not the Head Dev, or the Owner, **__DO NOT__** choose option C!")
-        
+        tries = 0
         ques1 = await ctx.send(embed=ann1)
         ans1 = await self.bot.wait_for('message')
 
@@ -42,23 +42,33 @@ class Announcements(commands.Cog):
 
             ques2 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the name of the announcement.")
             await ques1.edit(embed=ques2)
-            ans2 = await self.bot.wait_for('message')
 
-            if all(i.isprintable() for i in ans2.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: That is not a valid announcement, Try Again!")
-                # some code to restart function from here
+            while True:
+                ans2 = await self.bot.wait_for('message')  
+                if all(i.isprintable() for i in ans2.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid announcement, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid announcement, Try Again!")
+                if tries == 3:
+                    await ctx.send("Too many attempts. Please restart the command!")
 
             ques3 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter your announcement")
             await ques1.edit(embed=ques3)
-            ans3 = await self.bot.wait_for('message')
-
-            if all(i.isprintable() for i in ans3.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
-                # some code to restart function from here
+            
+            while True:
+                ans3 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans3.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!")
 
             await ques1.delete()
             await ans1.delete()
@@ -77,23 +87,34 @@ class Announcements(commands.Cog):
             
             ques4 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the name of the announcement.")
             await ques1.edit(embed=ques4)
-            ans4 = await self.bot.wait_for('message')
+            
 
-            if all(i.isprintable() for i in ans4.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: Sorry that is not a valid name. Please run the command again.")
-                # some code to restart from here
+            while True:
+                ans4 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans4.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!")
 
             ques5 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Please enter the announcement")
             await ques1.edit(embed=ques5)
-            ans5 = await self.bot.wait_for('message')
-
-            if all(i.isprintable for i in ans5.content):
-                pass
-            else:
-                return await ctx.send(":red_cicle: That is not a valid announcement, Try Again!")
-                # some code to restart function from here
+            
+            while True:
+                ans5 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans4.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!")           
 
             await ques1.delete()
             await ans1.delete()
@@ -112,31 +133,48 @@ class Announcements(commands.Cog):
 
             ques6 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Enter The Name Of The Bot:")
             await ques1.edit(embed=ques6)
-            ans6 = await self.bot.wait_for('message')
 
-            if all(i.isprintable() for i in ans6.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: that is not a valid name. Please run the command again.")
-                # some code to restart from here
+            while True:
+                ans6 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans6.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!") 
 
             ques7 =discord.Embed(color=random.randint(0, 0xFFFFFF), title="Enter A 3-5 sentence description of the bot.")
             await ques1.edit(embed=ques7)
-            ans7 = await self.bot.wait_for('message')
-
-            if all(i.isprintable() for i in ans7.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: that is not a valid description. Please run the command again.")
+            
+            while True:
+                ans7 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans7.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!") 
 
             ques8 = discord.Embed(color=random.randint(0, 0xFFFFFF), title="Enter any other details about the bot as needed, otherwise, type N/A")
             await ques1.edit(embed=ques8)
-            ans8 = await self.bot.wait_for('message')
 
-            if all(i.isprintable() for i in ans8.content):
-                pass
-            else:
-                return await ctx.send(":red_circle: That is not a valid entry. Type the command again.")
+            while True:
+                ans8 = await self.bot.wait_for('message')
+                if all(i.isprintable() for i in ans8.content):
+                    break
+                tries += 1
+                if tries == 1:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 2:
+                    return await ctx.send(":red_circle: That is not a valid entry, Try Again!")
+                if tries == 3:
+                    return await("Too many attempts. Please restart the command!") 
 
             await ques1.delete()
             await ans1.delete()

@@ -4,6 +4,7 @@ import random
 import asyncio
 
 from os import error
+from discord import channel
 from discord.ext import commands
 from discord.ext.commands import cog
 from discord.ext import tasks
@@ -17,6 +18,7 @@ command_prefix = data["command_prefix"]
 members_join_and_leave = data["members_join_and_leave"]
 LT = data["LT"]
 bot_spam = data["bot_spam"]
+warnings = data["warnings"]
 
 intents = discord.Intents.all()
 
@@ -30,22 +32,14 @@ async def on_ready():
     await asyncio.sleep(5)
     await msg.delete()
 
-bot.load_extension("cogs.admin")
-bot.load_extension("cogs.announcement")
-bot.load_extension("cogs.botinformation")
-bot.load_extension("cogs.dev")
-bot.load_extension("cogs.faqs")
-bot.load_extension("cogs.generalcommands")
-bot.load_extension("cogs.menu")
-bot.load_extension("owner")
-bot.load_extension("cogs.profiles")
-bot.load_extension("cogs.ruels")
-bot.load_extension("cogs.staff")
-bot.load_extension("cogs.staffapplication")
-bot.load_extension("cogs.support")
-bot.load_extension("cogs.taskloops")
-bot.load_extension("cogs.teams")
-bot.load_extension("cogs.welcome")
+cogs = ["cogs.admin", "cogs.announcement", "cogs.botinformation",
+        "cogs.dev", "cogs.faqs", "cogs.generalcommands",
+        "cogs.menu", "cogs.profiles", "cogs.rules",
+        "cogs.staff", "cogs.staffapplication", "cogs.support",
+        "cogs.taskloops", "cogs.teams", "cogs.welcome"]
+
+for cog in cogs:
+    bot.load_extension(cog)
 
 @bot.event
 async def on_member_remove(member):
@@ -53,13 +47,7 @@ async def on_member_remove(member):
     channel = bot.get_channel(members_join_and_leave)
     await channel.send(f'{member.mention} has left the server')
 
-    with open("test.json") as fp:
-        data = json.load(fp)
-    if str(member.id) in data:
-        with open("test.json") as d:
-            data = json.load(d)
-        if str(member.id) in data:
-            del data[str(member.id)]
+    # some code to check database for leaving member. if exist - remove from under "members"
 
 @bot.listen('on_message') 
 async def stuff(message):
@@ -71,12 +59,17 @@ async def stuff(message):
 
 @bot.event
 async def on_message(message):
+    member = message.author
     if not message.author.bot:
-        filtered_words = ['bad', 'noob']
+        filtered_words = ['newb', 'noob', 'shit', 'fuck', 'fck', 'FucK', 'fUck', 'dam', 'damn', 'danm', 'd@mn', 'dmn', 'shat', 'motherfucker', 'mf', 'smmfh', 'stfu', 'god damn', 'god dam', 'dang', 'cunt', 'bitch', 'b!tch']
         for word in filtered_words:
             if word in message.content:
                 await message.delete()
-                await message.author.send('What You Wanna Tell Them')
+                await message.channel.send(f'That is not allowed as a sentece, {member.mention}  xD try again :P')
+
+                warning = discord.Embed(color=discord.Colour.red(), title=f"{member.name}", description=f"")
+                channel = bot.get_channel(warnings)
+                await channel.send(embed=warning)
     await bot.process_commands(message)
 
     
