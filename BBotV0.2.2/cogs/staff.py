@@ -317,14 +317,12 @@ class Administration(commands.Cog):
         await member.send(embed=embed1)
 
     @commands.command()
-    async def bclose(ctx, category, channel):
-
-        for categories in ctx.guild.categories:
-            for channel1 in ctx.guild.channels:
-                if category == category:
-                    if channel1 == channel:
-                        await channel.delete()
-        
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderators')
+    async def close(self, ctx, channel):
+            
+        await ctx.send("This channel will be closing in 30 seconds.")
+        await asyncio.sleep(30)
+        await ctx.message.channel.delete()
 
 def setup(bot):
     bot.add_cog(Administration(bot))
