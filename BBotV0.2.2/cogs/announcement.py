@@ -71,7 +71,7 @@ class Announcements(commands.Cog):
                                 await ans5.delete()
                                 await msg1.delete()
 
-                                final_embed=discord.Embed(color=color, timestamp=time, title=":red_circle:**__INCOMING ANNOUNCEMENT!!!__**:red_circle:", description=f"**__{ans2.content}:__**\n**__Bots Name:__**\n{ans3.content}\n**__Bot Owner:__**\n{ans4.content}\n**__Update Notes:__**\n{ans5.content}").set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
+                                final_embed=discord.Embed(color=color, timestamp=time, title=":red_circle:**__INCOMING ANNOUNCEMENT!!!__**:red_circle:", description=f"**__{ans2.content}__**\n\n**__Bots Name:__**\n{ans3.content}\n**__Bot Owner:__**\n{ans4.content}\n**__Update Notes:__**\n{ans5.content}").set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
                                 a = await channel2.send(embed=final_embed)
                                 await a.pin()
                                 await channel2.purge(limit=1)
@@ -112,7 +112,7 @@ class Announcements(commands.Cog):
                     await ans2.delete()
                     await msg1.edit(embed=embed3)
                     ans3 = await self.bot.wait_for('message', check=check)
-                    final_embed = discord.Embed(color=color, timestamp=time, title=f":red_circle:**__ANNOUNCEMENT INCOMING!__**:red_circle:", description=f"**__{ans2.content}:__**\n{ans3.content}", inline=False).set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
+                    final_embed = discord.Embed(color=color, timestamp=time, title=f":red_circle:**__ANNOUNCEMENT INCOMING!__**:red_circle:", description=f"**__{ans2.content}__**\n\n{ans3.content}", inline=False).set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
 
                     if all(i.isprintable() for i in ans3.content):
                         await ans3.delete()

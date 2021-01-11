@@ -1,20 +1,12 @@
 import DiscordUtils as DiscordUtils
 import discord
 import json
-import aiohttp
-import random
 import datetime
-import os
 import asyncio
 
-from os import error
-from discord import member
 from discord.ext import commands
 from discord.ext.commands import cog
-from discord.utils import get
-from isort import logo
 
-# switch me to database and change whatever variables to rep same content
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 BOTOUTPUT = data["channels"]["rules"]

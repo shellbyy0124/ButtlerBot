@@ -64,7 +64,7 @@ async def on_message(message):
                 await message.delete()
                 await message.channel.send(f':red_circle: That word(s) is/are not allowed in this discord!, {member.mention} Try, Again! :red_circle:')
 
-                warning = discord.Embed(color=discord.Colour.red(), title=f"{member.name}", description=f"**__Offending Content:__**{message.content}")
+                warning = discord.Embed(color=discord.Colour.red(), title=f"{member.name}", description=f"**__Offending Content:__**\n{message.content}")
                 channel = bot.get_channel(warnings)
                 await channel.send(embed=warning)
     await bot.process_commands(message)

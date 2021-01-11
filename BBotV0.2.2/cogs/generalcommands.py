@@ -116,40 +116,31 @@ class GeneralCommands(commands.Cog):
         ans1 = await self.bot.wait_for('message')
 
         if all(i.isprintable() for i in ans1.content):
-            pass
-        else:
-            return await ctx.send(":red_cirle:That is not a valid name. Please type the command again.")
 
-        bug2 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title="Please Enter The Issue:")
-        await send1.edit(embed=bug2)
-        ans2 = await self.bot.wait_for('message')
+            bug2 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title="Please Enter The Issue:")
+            await send1.edit(embed=bug2)
+            ans2 = await self.bot.wait_for('message')
 
-        if all(x.isprintable() for x in ans2.content):
-            pass
-        else:
-            return await ctx.send(":red_circle: That is not a valid issue. Type the command again")
-        
-        bug3 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title="Please enter anymore details about the bot that you feel are needed")
-        await send1.edit(embed=bug3)
-        ans3 = await self.bot.wait_for('message')
+            if all(x.isprintable() for x in ans2.content):
 
-        if all(i.isprintable() for i in ans3.content):
-            pass
-        else:
-            return await ctx.send(":red_circle: That is not a valid entry. Type the command again.")
+                bug3 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title="Please enter anymore details about the bot that you feel are needed")
+                await send1.edit(embed=bug3)
+                ans3 = await self.bot.wait_for('message')
 
-        await send1.delete()
-        await ans1.delete()
-        await ans2.delete()
-        await ans3.delete()
+                if all(i.isprintable() for i in ans3.content):
 
-        finale = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title=f"{ans1.content}")
-        finale.add_field(name="\u200b", value=f"{ans2.content}")
-        finale.add_field(name="\u200b", value=f"{ans3.content}")
-        finale.timestamp = datetime.datetime.utcnow()
+                    await send1.delete()
+                    await ans1.delete()
+                    await ans2.delete()
+                    await ans3.delete()
 
-        channel = self.bot.get_channel(botbugs)
-        await channel.send(embed=finale)
+                    finale = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=datetime.datetime.utcnow(), title=f"{ans1.content}")
+                    finale.add_field(name="\u200b", value=f"__{ans2.content}:__")
+                    finale.add_field(name="\u200b", value=f"```{ans3.content}```")
+                    finale.timestamp = datetime.datetime.utcnow()       
+
+                    channel = self.bot.get_channel(botbugs)
+                    await channel.send(embed=finale)
 
     @commands.command()
     async def think(self, ctx):
@@ -182,6 +173,7 @@ class GeneralCommands(commands.Cog):
         ans = await self.bot.wait_for('message')
 
         if all(x.isprintable() for x in ans.content):
+            await ans.delete()
             embed2 = discord.Embed(color=color, timestamp=time, title=f"{ctx.author.name}", description=f"{ans.content}")
             await msg1.edit(embed=embed2)
             await msg1.pin()

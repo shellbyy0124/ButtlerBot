@@ -6,6 +6,7 @@ import asyncio
 import os
 import datetime
 import random
+import sqlite3
 
 from os import error
 from discord import member
@@ -42,6 +43,7 @@ class Administration(commands.Cog):
         embed2.add_field(name='Owner', value=f"Mekasu, Kastien", inline=False)
         embed2.add_field(name='Verification Level', value=str(ctx.guild.verification_level), inline=False)
         embed2.add_field(name='Highest role', value=ctx.guild.roles[-2], inline=False)
+        embed2.add_field(name='Contributers:', value="None")
 
         for r in staff_roles:
             role = discord.utils.get(ctx.guild.roles, name=r)
@@ -168,7 +170,7 @@ class Administration(commands.Cog):
                         await ans1.delete()
                         member = ans1.content
 
-                        embed2 = discord.Embed(color=color, timestamp=time, title=f"ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans2.content}\n\nEnter The Length Of Time:")
+                        embed2 = discord.Embed(color=color, timestamp=time, title=f"ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\n\nEnter The Length Of Time:")
                         await msg1.edit(embed=embed2)
                         ans2 = await self.bot.wait_for('message', check=check)
 
@@ -178,7 +180,7 @@ class Administration(commands.Cog):
 
                             time = int(ans2.content)
 
-                            embed3 = discord.Embed(color=color, timestamp=time, title="ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans2.content}\nLength Of Time:\n{ans2.content}s\n\nPlease Enter The Reason For The Temporary Mute:")
+                            embed3 = discord.Embed(color=color, timestamp=time, title="ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\nLength Of Time:\n{ans2.content}s\n\nPlease Enter The Reason For The Temporary Mute:")
                             await msg1.edit(embed=embed3)
                             ans3 = await self.bot.wait_for('message', check=check)
 

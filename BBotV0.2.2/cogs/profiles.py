@@ -41,7 +41,7 @@ class Profiles(commands.Cog):
         category = discord.utils.get(ctx.guild.categories, name = 'Profile Information')
         channel = await ctx.guild.create_text_channel(ctx.author.display_name, overwrites=None, category=category)
 
-        msg = discord.Embed(color=color, title="Welcome to the profile setup! :)", description="During this setup, I am going to be asking you a series of questions. This won't take but just a few moments of your time. Please be sure to read each question, and it's instructions carefully! Type ready when you're ready\n**___NOTE___**\n**__You only get 3 tries on an incorrect input. After 3 incorrect tries, it will delete the channel, and you will need to go back to #profiles to start over!__**") 
+        msg = discord.Embed(color=color, title="Welcome to the profile setup! :)", description="During this setup, I am going to be asking you a series of questions. This won't take but just a few moments of your time. Please be sure to read each question, and it's instructions carefully! **__Type ready when you're ready__**\n**___NOTE___**\n**__You only get 3 tries on an incorrect input. After 3 incorrect tries, it will delete the channel, and you will need to go back to #profiles to start over!__**") 
         snd = await channel.send(embed=msg)
         ans = await self.bot.wait_for('message')
 
