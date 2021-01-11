@@ -168,6 +168,24 @@ class GeneralCommands(commands.Cog):
         think.set_thumbnail(url="attachment://ThinkBeforeYouSpeak.png")
         await ctx.send(embed=think, file=file)
 
+    @commands.command()
+    async def bsupport(self, ctx):
+
+        color = random.randint(0, 0xFFFFFF)
+        time = datetime.datetime.utcnow()
+
+        category = discord.utils.get(ctx.guild.categories, name='Save_Us')
+        channel = discord.utils.get(ctx.guild.text_channels, name=ctx.author.name, category=category)
+
+        embed1 = discord.Embed(color=discord.Colour.blue(), title=f"Welcome To Your Help Channel, {ctx.author.name}", description=f"Please type a brief description, and your code your having problems with and someone will be with you soon :)")
+        msg = await channel.send(embed=embed1)
+        ans = await self.bot.wait_for('message')
+
+        if all(x.isprintable() for x in ans.content):
+            embed2 = discord.embed(color=color, timestamp=time, title=f"{ctx.author.name}", description=f"{ans.content}")
+            await msg.edit(embed=embed2)
+            await msg.pin()
+
 
 def setup(bot):
     bot.add_cog(GeneralCommands(bot))

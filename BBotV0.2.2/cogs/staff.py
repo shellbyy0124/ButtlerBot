@@ -316,5 +316,15 @@ class Administration(commands.Cog):
         embed1 = discord.Embed(color=color, timestamp=timestamp, icon_url=image2, title="Commands Available To You:", description=f"{stuff}")
         await member.send(embed=embed1)
 
+    @commands.command()
+    async def bclose(ctx, category, channel):
+
+        for categories in ctx.guild.categories:
+            for channel1 in ctx.guild.channels:
+                if category == category:
+                    if channel1 == channel:
+                        await channel.delete()
+        
+
 def setup(bot):
     bot.add_cog(Administration(bot))

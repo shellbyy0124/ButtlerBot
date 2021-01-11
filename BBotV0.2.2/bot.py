@@ -28,7 +28,7 @@ async def on_ready():
 
     cogs = ["cogs.announcement", "cogs.challenges_command", "cogs.coinflip", "cogs.generalcommands",
             "cogs.menu", "cogs.profiles", "cogs.rules", "cogs.staff", "cogs.staffapplication",
-            "cogs.support", "cogs.taskloops", "cogs.teams", "cogs.welcome"]
+            "cogs.taskloops", "cogs.teams", "cogs.welcome"]
 
     for cog in cogs:
         bot.load_extension(cog)
