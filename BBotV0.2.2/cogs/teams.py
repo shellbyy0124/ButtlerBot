@@ -7,9 +7,6 @@ import random
 from discord.ext import commands
 from discord.ext.commands import Cog
 
-with open('./master.json', 'r', encoding='utf-8-sig') as f:
-    data = json.load(f)
-
 
 class Teams(commands.Cog):
 
@@ -87,7 +84,7 @@ class Teams(commands.Cog):
                     await name1.delete()
 
     @commands.command()
-    async def btclose(ctx):
+    async def btclose(self, ctx):
         if ctx.channel.category.name == 'Teams':
             await ctx.channel.delete()
 

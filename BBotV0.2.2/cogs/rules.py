@@ -14,9 +14,10 @@ from discord.ext.commands import cog
 from discord.utils import get
 from isort import logo
 
+# switch me to database and change whatever variables to rep same content
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-BOTOUTPUT = data["rules"]
+BOTOUTPUT = data["channels"]["rules"]
 
 
 class Rules(commands.Cog):
@@ -27,7 +28,8 @@ class Rules(commands.Cog):
     @commands.command()
     async def brules(self, ctx):
         now = datetime.datetime.now()+datetime.timedelta(minutes=5)
-        embedrules1 = discord.Embed(timestamp=now, color=ctx.author.color, title="These Are The Rules For The Learning Together Community Discord!").add_field(name="\u200b", value="These rules are to be followed at all times!", inline=False)
+        embedrules1 = discord.Embed(timestamp=now, color=ctx.author.color, title="These Are The Rules For The Learning Together Community Discord!")
+        embedrules1.add_field(name="\u200b", value="**___These rules are to be followed at all times!___**", inline=False)
         embedrules1.add_field(name="Below You Will See The Tiers Of Warnings", value="1-3 Warnings: temp mute from text/voice chat channels < 10 minutes\n4th Warning: 12 hour silence from text/voice chat channels\n5th Warning: 1-3 Day Tempban or Perma Ban", inline=False)
         embedrules1.add_field(name="Number 1:", value="Respect of your peers is a must at all times!", inline=False)
         embedrules1.add_field(name="Number 2:", value="Making someone feel inferior to your is prohibited!", inline=False)

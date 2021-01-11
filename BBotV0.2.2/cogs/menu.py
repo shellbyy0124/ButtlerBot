@@ -1,23 +1,20 @@
 import discord
 import json
-import aiohttp
 import random
-import os
 import datetime
 import DiscordUtils
 import asyncio
 
 from os import error
-from discord import member
 from discord.ext import commands
 from discord.ext.commands import cog
-from discord.utils import get
-from isort import logo
 
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
-mekasu = data["mekasu"]
-kastien = data["kastien"]
+
+buttler_info = data["channels"]["buttler_info"]
+staff_commands = data["channels"]["staff_commands"]
+LT = data["guild"]["LT"]
 
 class HelpCommands(commands.Cog):
 
@@ -25,148 +22,242 @@ class HelpCommands(commands.Cog):
         self.bot = bot
     
     @commands.command(aliases=["bhelp"])
-    async def paginate(self, ctx):
-        now = datetime.datetime.now()+datetime.timedelta(minutes=5)
-        async with aiohttp.ClientSession() as session:
-            async with session.get('https://rickandmortyapi.com/api/character') as resp:
-                x = await resp.json()
-                
-        y2 = random.randint(0, 19)
-        y3 = random.randint(0, 19)
-        y4 = random.randint(0, 19)
-        y5 = random.randint(0, 19)
-        y6 = random.randint(0, 19)
-        y7 = random.randint(0, 19)
-        y8 = random.randint(0, 19)
-        y9 = random.randint(0, 19)
-        y10 = random.randint(0, 19)
-        y11 = random.randint(0, 19)
-        y12 = random.randint(0, 19)
-        y13 = random.randint(0, 19)
-        y14 = random.randint(0, 19)
-        y15 = random.randint(0, 19)
-        y16 = random.randint(0, 19)
-        y17 = random.randint(0, 19)
-        y18 = random.randint(0, 19)
-        y19 = random.randint(0, 19)
-        y20 = random.randint(0, 19)
-        y21 = random.randint(0, 19)
+    async def generalhelpmenu(self, ctx):
+        
+        time = datetime.datetime.utcnow()
+        color = random.randint(0, 0xFFFFFF)
+        bot = self.bot.user.avatar_url
 
-        embed1 = discord.Embed(color=ctx.author.color).add_field(name=f"Hi! I'm {self.bot.user.name}, and I'm here to help!",
-                                                                value="In the pages to follow are things that I am able to currently help you with, and a list of things that I am currently developing to better help you in the future! :smile: To get my help menu, type `/buttlerhelp`, and please enjoy these Rick and Morty meme's while you flip through the pages :heart:")
-        embed1.set_image(url=self.bot.user.avatar_url)
-        embed1.set_footer(text='Page 1/20')
-        embed1.timestamp = datetime.datetime.now()
-        embed2 = discord.Embed(color=ctx.author.color).add_field(name="Got Friends?",
-                                                                value="Invite Them With `>binvite`")
-        embed2.set_image(url=x["results"][y2]["image"])
-        embed2.set_footer(text='Page 2/20')
-        embed2.timestamp = datetime.datetime.now()
-        embed3 = discord.Embed(color=ctx.author.color).add_field(name=f"Rules:",
-                                                                value=f"Each member was sent a list of the rules when they joined {ctx.guild.name}, however, if the rules need to be referenced, please type `>brules` to receive a list of rules :smile:")
-        embed3.set_image(url=x["results"][y3]["image"])
-        embed3.set_footer(text='Page 3/20')
-        embed3.timestamp = datetime.datetime.now()
-        embed4 = discord.Embed(color=ctx.author.color).add_field(name=f"How To Present Your Code In This Discord:",
-                                                                value=f"If you're unsure of how to paste code within {ctx.guild.name}, then type `>bpaste` to get the insider scoop :smile:")
-        embed4.set_image(url=x["results"][y4]["image"])
-        embed4.set_footer(text='Page 4/20')
-        embed4.timestamp = datetime.datetime.now()
-        embed5 = discord.Embed(color=ctx.author.color).add_field(name=f"For A List of FAQ's:",
-                                                                value="Please Type `>bfaqs` to receive the Frequently Asked Questions, and their solutions :thinking:")
-        embed5.set_image(url=x["results"][y5]["image"])
-        embed5.set_footer(text='Page 5/20')
-        embed5.timestamp = datetime.datetime.now()
-        embed6 = discord.Embed(color=ctx.author.color).add_field(name=f"Staff Applications:",
-                                                                value="If you would like to apply to become a staff member, please type `>bsapp` to receive the application within the #staff_applications channel")
-        embed6.set_image(url=x["results"][y6]["image"])
-        embed6.set_footer(text='Page 6/20')
-        embed6.timestamp = datetime.datetime.now()
-        embed7 = discord.Embed(color=ctx.author.color).add_field(name=f"Bot Updates",
-                                                                value="For a list of the most recent bot updates, please type `>bbupdates` to get the link to our text channel for our updates that come out for our communities bots.")
-        embed7.add_field(name="**ATTENTION**", value="`**THIS COMMAND IS CURRENTLY UNDER CONSTRUCTION, AND THUS WILL RETURN HOBO IF YOU USE IT**`")                                                            
-        embed7.set_image(url=x["results"][y7]["image"])
-        embed7.set_footer(text='Page 7/20')
-        embed7.timestamp = datetime.datetime.now()
-        embed8 = discord.Embed(color=ctx.author.color).add_field(name=f"List Of Bots In {ctx.guild.name}",
-                                                                value="To see a list of the bots we have, please type `>bblist`")
-        embed8.set_image(url=x["results"][y8]["image"])
-        embed8.set_footer(text='Page 8/20')
-        embed8.timestamp = datetime.datetime.now()
-        embed9 = discord.Embed(color=ctx.author.color).add_field(name=f"Have words you could careless to see?:",
-                                                                value="If you have a word, or a list of words, that you would like have added to the message filter, or would like to have a word removed, then please type `>bbadlist <message>`")
-        embed9.add_field(name="**ATTENTION**", value="`**THIS COMMAND IS CURRENTLY UNDER CONSTRUCTION, AND THUS WILL RETURN HOBO IF YOU USE IT**`")
-        embed9.set_image(url=x["results"][y9]["image"])
-        embed9.set_footer(text='Page 9/20')
-        embed9.timestamp = datetime.datetime.now()
-        embed10 = discord.Embed(color=ctx.author.color).add_field(name=f"Need Help?",
-                                                                value=f"Do you need help with your code? Then type `>bhlang` to get help with your code! Be sure to replace `<languange>` with the language of the code you're needing assistance with! **Be advised, this discord only provides support for Java, C#, Python, JavaScript, and HTML!**")
-        embed10.add_field(name="**ATTENTION**", value="`**THIS COMMAND IS CURRENTLY UNDER CONSTRUCTION, AND THUS WILL RETURN HOBO IF YOU USE IT**`")
-        embed10.set_image(url=x["results"][y10]["image"])
-        embed10.set_footer(text='Page 10/20')
-        embed10.timestamp = datetime.datetime.now()
-        embed11 = discord.Embed(color=ctx.author.color).add_field(name="Resources:",
-                                                                value=f"We have 2 categories dedicated to resources for all of our members. Please travel down to _Resources For Beginners_ and _Resources_ for more information!")
-        embed11.set_image(url=x["results"][y11]["image"])
-        embed11.set_footer(text='Page 11/20')
-        embed11.timestamp = datetime.datetime.now()
-        embed12 = discord.Embed(color=ctx.author.color).add_field(name='Coding Challenges:',
-                                                                value=f"The coding challenges section of ButtlerBot is currently under construction.")
-        embed12.set_image(url=x["results"][y12]["image"])
-        embed12.set_footer(text="Page 12/20")
-        embed12.timestamp = datetime.datetime.now()
-        embed13 = discord.Embed(color=ctx.author.color).add_field(name=f"Need to have access to a To-Do list?",
-                                                                value="Head on over to #to_do and use our ToDo Bot! \n\n\n**BE ADVISED! THIS PART OF BUTTLER IS UNDER CONSTRUCTION! FOR THE TIME BEING WE ARE USING TODO BOT! WE DO NOT OWN NOR DO WE HAVE A SUPPORT CHANNEL FOR THIS BOT! EVERYONE CAN SEE YOUR TODO LIST. NO ONE CAN ACCESS IT!**")
-        embed13.set_image(url=x["results"][y13]["image"])
-        embed13.set_footer(text="Page 13/20")
-        embed13.timestamp = datetime.datetime.now()
-        embed14 = discord.Embed(color=ctx.author.color).add_field(name=f"{self.bot.user.name} not responding?",
-                                                                value="type `>bping` to get a pong!")
-        embed14.set_image(url=x["results"][y15]["image"])
-        embed14.set_footer(text="Page 14/20")
-        embed14.timestamp = datetime.datetime.now()
-        embed15 = discord.Embed(color=ctx.author.color).add_field(name=f"Nick Names!",
-                                                                value="Type `/nick` to change your nickname! Please keep it community appropriate! If you don't, the staff will change it!")
-        embed15.set_image(url=x["results"][y16]["image"])
-        embed15.set_footer(text="Page 15/20")
-        embed15.timestamp = datetime.datetime.now()
-        embed16 = discord.Embed(color=ctx.author.color).add_field(name=f"**Submitting Your Code To A Team?**",
-                                                                value="To submit your code to the team submissions channel, type `>btsubmit <link to your pastebin>`")
-        embed16.set_image(url=x["results"][y17]["image"])
-        embed16.set_footer(text="Page 16/20")
-        embed16.timestamp = datetime.datetime.now()
-        embed17 = discord.Embed(color=ctx.author.color).add_field(name=f"**Submitting A Discord Suggestion?**",
-                                                                value=f"To submit your discord suggestion, type `>bdsubmit <your_suggestion>`")
-        embed17.set_image(url=x["results"][y18]["image"])
-        embed17.set_footer(text="Page 17/20")
-        embed17.timestamp = datetime.datetime.now()
-        embed18 = discord.Embed(color=ctx.author.color).add_field(name=f"**Submitting A Suggestion For A Future Bot?**",
-                                                                value=f"Want to submit an idea for a future bot? type `>bbsubmit <your_suggestion>`")
-        embed18.set_image(url=x["results"][y19]["image"])
-        embed18.set_footer(text="Page 18/20")
-        embed18.timestamp = datetime.datetime.now()
-        embed19 = discord.Embed(color=ctx.author.color).add_field(name="**Don't know buttler's prefix?**", 
-                                                                value="just simply type `bprefix`, and I'll let you know :smile:")
-        embed19.set_image(url=x["results"][y20]["image"])
-        embed19.set_footer(text="Page 19/20")
-        embed19.timestamp = datetime.datetime.now()
-        embed20 = discord.Embed(color=ctx.author.color).add_field(name="Want to create a profile?",
-                                                                value="To create a profile, head over to the __Profiles__ category, and check out the how-to channel")
-        embed20 = discord.Embed(color=ctx.author.color).add_field(name=f"Disclaimer!",
-                                                                value=f'This can/will be changed at any given time. If you are ever unsure of what commands are available to you, you can always type `/help` :smile: :clap:')
-        embed20.set_image(url=x["results"][y21]["image"])
-        embed20.set_footer(text="Page 20/20")     
-        embed20.timestamp = datetime.datetime.now()      
+        embed1 = discord.Embed(color=color, timestamp=time, title=f"Hi! I'm {self.bot.user.name}, and I'm here to help!", description="In the pages to follow are things that I am able to currently help you with, and a list of things that I am currently developing to better help you in the future! :smile: To get my help menu, type `/buttlerhelp` :heart:", inline=False)
+        embed1.set_image(url=bot)
+        embed1.set_footer(text='Page 1/19')
+        
+        embed2 = discord.Embed(color=color, timestamp=time, title="Want to invite your friends?", description="Instead of having to go through all those clickable menus to invite your friends, just type `>binvite` to receive a link made for you!", inline=False)
+        embed2.set_image(url=bot)
+        embed2.set_footer(text='Page 2/19')
+        
+        embed3 = discord.Embed(color=color, timestamp=time, title="Rules", description="Each member was sent a list of the rules when they joined, however, if the rules need to be referenced, please type `>brules` to receive a list of rules :smile:", inline=False)
+        embed3.set_image(url=bot)
+        embed3.set_footer(text='Page 3/19')
+        
+        embed4 = discord.Embed(color=color, timestamp=time, title="Resources", description="Everyone gets tired of having to google stuff all the time. We have 2 categories dedicated to resources for all of our members. Please travel down to _Resources_ for more information!", inline=False)
+        embed4.set_image(url=bot)
+        embed4.set_footer(text='Page 4/19')
+
+        embed5 = discord.Embed(color=color, timestamp=time, title="Coding Challenges", description="The coding challenges section of ButtlerBot is currently under construction.")
+        embed5.set_image(url=bot)
+        embed5.set_footer(text="Page 5/19")
+        
+        embed6 = discord.Embed(color=color, timestamp=time, title="How To Present Your Code In This Discord", description="We ask that you do not post walls of code when asking your question, but to keep things more visual appealing, and using one of the links under the `>bpaste` command to show your code within the community.", inline=False)
+        embed6.set_image(url=bot)
+        embed6.set_footer(text='Page 6/19')
+        
+        embed7 = discord.Embed(color=color, timestamp=time, title="Staff Applications", description="If you would like to apply to become a staff member, please type `>bsapp` to start your application. When you go to do your application, please go down to the Applications category, then use the #apply_for_staff channel to start your application. When the command is executed, it will open a new channel with your name on it! Please do not have more than one channel open at a time. Once you've completed your application, and you are satisfied with it, and type 'exit', the channel will automatically delete itself. In addition, if you attempt to enter your answer, and you enter it incorrectly 3 times, the channel will notify you that the channel is being deleted due to insufficient answers being enetered, as well as, the application will time out after a while of not responding to the bot, and will also delete the channel after a certain amoutn of time.", inline=False)
+        embed7.set_image(url=bot)
+        embed7.set_footer(text='Page 7/19')
+
+        embed8 = discord.Embed(color=color, timestamp=time, title="Bot Updates", description="All information on bot updates, community updates, and bots being added to the community can be found under the ___Announcements___ category.", inline=False)
+        embed8.set_image(url=bot)
+        embed8.set_footer(text='Page 8/19')
+        
+        embed9 = discord.Embed(color=color, timestamp=time, title="What bots do we use?", description="To see a list of the bots we use within the community, please type `>bblist` in the #bot_spam channel", inline=False)
+        embed9.set_image(url=bot)
+        embed9.set_footer(text='Page 9/19')
+        
+        embed10 = discord.Embed(color=color, timestamp=time, title="Have words you could careless to see?:", description="If you have a word, or a list of words, that you would like have added to the message filter, or would like to have a word removed, then please type `>bbadlist <message>`", inline=False)
+        embed10.set_image(url=bot)
+        embed10.set_footer(text='Page 10/19')
+        
+        embed11 = discord.Embed(color=color, timestamp=time, title="Need to have access to a To-Do list?", description=":red_circle:**BE ADVISED! THIS PART OF BUTTLER IS UNDER CONSTRUCTION!**\nAn announcement will be made once we have this section of the bot up and running!", inline=False)
+        embed11.set_image(url=bot)
+        embed11.set_footer(text="Page 11/19")
+        
+        embed12 = discord.Embed(color=color, timestamp=time, title="bot not responding?", description="If you know how to read a latency ping, then please use `>bping` to get a pong, and report that pong to the staff.", inline=False)
+        embed12.set_image(url=bot)
+        embed12.set_footer(text="Page 12/19")
+        
+        embed13 = discord.Embed(color=color, timestamp=time, title="Nick Names!", description="Type `/nick <new_name>` to change your nickname! Please keep it community appropriate! If you don't, the staff will change it, and you will be issued a warning!", inline=False)
+        embed13.set_image(url=bot)
+        embed13.set_footer(text="Page 13/19")
+        
+        embed14 = discord.Embed(color=color, timestamp=time, title="Submitting Your Code To A Team?", description="Submitting your code to be viewed by a team is as simple as going to the #bot_spam channel and typing `>btsubmit <link to code>`!", inline=False)
+        embed14.set_image(url=bot)
+        embed14.set_footer(text="Page 14/19")
+
+        embed15 = discord.Embed(color=color, timestamp=time, title="Want to give a discord suggestion?", description="To submit your discord suggestion, type `>bdsubmit <your_suggestion>`", inline=False)
+        embed15.set_image(url=bot)
+        embed15.set_footer(text="Page 15/19")
+        
+        embed16 = discord.Embed(color=color, timestamp=time, title=f"Submitting A Suggestion For A Future Bot?", description="Want to submit an idea for a future bot? type `>bbsubmit <your_suggestion>`", inline=False)
+        embed16.set_image(url=bot)
+        embed16.set_footer(text="Page 16/19")
+        
+        embed17 = discord.Embed(color=color, timestamp=time, title="Don't know buttler's prefix?", description="just simply type `bprefix`, and I'll let you know :smile:", inline=False)
+        embed17.set_image(url=bot)
+        embed17.set_footer(text="Page 17/19")
+        
+        embed18 = discord.Embed(color=color, timestamp=time, title="Want to create a profile?", description="To create a profile, head over to the __Profiles__ category, and check out the how-to channel", inline=False)
+        embed18.set_image(url=bot)
+        embed18.set_footer(text="Page 18/19")
+
+        embed19 = discord.Embed(color=color, timestamp=time, title="Disclaimer!", description='This can/will be changed at any given time. If you are ever unsure of what commands are available to you, you can always type `/help` :smile: :clap:')
+        embed19.set_image(url=bot)
+        embed19.set_footer(text="Page 19/19")     
 
         paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=False)
-        paginator.add_reaction('⏮️', "first")
         paginator.add_reaction('⏪', "back")
         paginator.add_reaction('⏩', "next")
-        paginator.add_reaction('⏭️', "last")
         embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10, embed11, embed12, embed13, embed14, embed15, embed16, embed17, embed18, embed19]
         await paginator.run(embeds)
 
+    @commands.command(aliases=["bstaff"])
+    @commands.has_any_role('Owner', 'Head Admin', 'Admin', 'Moderator', 'Community Helper')
+    async def staffhelpmenu(self, ctx):
 
+        color = random.randint(0, 0xFFFFFF)
+        time = datetime.datetime.utcnow()
+        bot = self.bot.user.avatar_url
+        
+        adminembed1 = discord.Embed(color=color, timestamp=time, title=f"Hi! I'm {self.bot.user.name}'s Staff Menu, and I'm here to help!", description="In the pages to follow are things that I am able to currently help you with, and below that is a list of things that I am currently developing to better help you in the future! :smile: To get my help menu, type `/bstaffhelp`", inline=False)
+        adminembed1.set_image(url=bot)
+        adminembed1.set_footer(text='Page 1/11')
+        
+        adminembed2 = discord.Embed(color=color, timestamp=time, title="Server Statistics:", description="Want to help us keep up with the server stats? Type /buttlerstats to get the pertinent info!", inline=False)
+        adminembed2.set_thumbnail(url=bot)
+        adminembed2.set_footer(text='Page 2/11')
+        
+        adminembed3 = discord.Embed(color=color, timestamp=time, title="User Inappropriate Nickname?", description="Do you see a user with an inappropriate username? then type /buttlerchangenick <username_as_currently_shown> <actual_name> and the user will automatically be dm'd a message of their nickname being changed. Adding a reason for why will be coming in a future update!", inline=False)
+        adminembed3.set_thumbnail(url=bot)
+        adminembed3.set_footer(text='Page 3/11')
+        
+        adminembed4 = discord.Embed(color=color, timestamp=time, title="Purging Channels: `>buttlerpurge`", description="Do Not Abuse This Ability! If you are deleting less than 20-ish messages, then right click and delete them individually. This command is only for if someone has hacked us, or spammed us! It will delete pinned messages if you delete it with the bot! Try not to use this command if you are not an admin or higher. If unsure of when to use it, please ask an admin or higher in the staff chat channel", inline=False)
+        adminembed4.set_thumbnail(url=bot)
+        adminembed4.set_footer(text='Page 4/11')
+        
+        adminembed5 = discord.Embed(color=color, timestamp=time, title="Who Is Who but a Who!", description="Some have an incomprehensible nickname, and you want to know who they are, or need to change their nickname, then type /buttlerwhois <username> and get that information!", inline=False)
+        adminembed5.set_thumbnail(url=bot)
+        adminembed5.set_footer(text='Page 5/11')
+        
+        adminembed6 = discord.Embed(color=color, timestamp=time, title="A member being obnixious is the voice, or text channel?", description="Type `/tempmute <member_name> <time_in_seconds> <reason>` to mute them").add_field(name="\u200b", value="**THIS COMMAND IS UNDER CONSTRUCTION AND WILL NOT WORK**", inline=False)
+        adminembed6.set_thumbnail(url=bot)
+        adminembed6.set_footer(text='Page 6/11')
+        
+        adminembed7 = discord.Embed(color=color, timestamp=time, title="Locking Channels:", description="It is only ok to lock a channel with `>buttlerlock` when we are being spammed, or a virus of some sort is in the server. Other than that, you can simply use the `>buttlerwarn` or `>butlertempmute` commands to take care of the problem.", inline=False)
+        adminembed7.set_thumbnail(url=bot)
+        adminembed7.set_footer(text='Page 7/11')
+        
+        adminembed8 = discord.Embed(color=color, timestamp=time, title="Unlocking Channels:", description="As stated previously with the locking channels, and the appropriatness of that command, unlocking channels (`>buttlerunlock`) are only to be done by the head admins or higher. We are the only ones with access to the files. We will let you know when it is safe!", inline=False)
+        adminembed8.set_thumbnail(url=bot)
+        adminembed8.set_footer(text="Page 8/11")
+        
+        adminembed9 = discord.Embed(color=color, timestamp=time, title="Need To Know Who's Here?", description="Use `>buttlerlistmembers` to get a list of members within the discord :smile:", inline=False)
+        adminembed9.set_thumbnail(url=bot)
+        adminembed9.set_footer(text="Page 9/11")
+        
+        adminembed10 = discord.Embed(color=color, timestamp=time, title="Need to make an announcement?", description="Use `>bannounce` and follow the prompts on the screens to follow to get your announcement made :D", inline=False)
+        adminembed10.set_thumbnail(url=bot)
+        adminembed10.set_footer(text="Page 10/11")
+
+        adminembed11 = discord.Embed(color=color, timestamp=time, title="Making An Announcement?", description="Use `>bannouce` to make your announcement. When making your announcement, be sure to read the screen carefully!!! **DO NOT USE OPTION C IF YOU ARE NOT THE HEAD DEV OR THE OWNER!!!!**", inline=False)
+        adminembed11.set_thumbnail(url=bot)
+        adminembed11.set_footer(text="11/11")
+        
+        paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=False)
+        paginator.add_reaction('⏪', "back")
+        paginator.add_reaction('⏩', "next")
+        adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6, adminembed7, adminembed8, adminembed9, adminembed10]
+        await paginator.run(adminembeds)
+
+    @commands.command()
+    @commands.has_any_role('Owner', 'Head Dev')
+    async def binfo(self, ctx):
+
+        color = random.randint(0, 0xFFFFFF)
+        note = "This window will change every 10 seconds"
+        note1 = "This message will self-destruct after 300 seconds"
+        time = datetime.datetime.utcnow()
+        bot = self.bot.user.avatar_url
+        
+        buttler = discord.Embed(color=color, timestamp=time, title=f"{self.bot.user.name}:", description=f"Good Evening, Ladies and Gentlemen. My name is {self.bot.user.name} and I have been asked to escort you :smile:", inline=False)
+        buttler.set_thumbnail(url=bot)
+        buttler.set_footer(text=note)
+
+        buttler1 = discord.Embed(color=color, timestamp=time, title="\u200b", description=f"I have been created to become your virtual assistant. I was created by KasMek, LLC., and associates to become your virtual assistant within your community. Please go through this brief tutorial of who I am, what I can do, and how to access my information :smirk:", inline=False)
+        buttler1.set_thumbnail(url=bot)
+        buttler1.set_footer(text=note)
+
+        buttler2 = discord.Embed(color=color, timestamp=time, title=f"Moderation:", description=f"I have different moderation commands, of which you can view by typing `>bstaff`. This will display a window of all commands available to staff members at this time.", inline=False)
+        buttler2.set_thumbnail(url=bot)
+        buttler2.set_footer(text=note)
+
+        buttler3 = discord.Embed(color=color, timestamp=time, title=f"General Uses:", description=f'I also have commands that are available to your non-staff users. Type `>bhelp` for those.', inline=False)
+        buttler3.set_thumbnail(url=bot)
+        buttler3.set_footer(text=note)
+
+        buttler4 = discord.Embed(color=color, timestamp=time, title=f"Developments:", description=f"KasMek, LLC., and associates are currently working on developing so much more. They're goal is to incorporate Coding Challenges, Teams, and much more. Unfortunately at this time, I do not have any information on those delevopments, but you are always welcome to join the [Buttler Support Discord](https://discord.gg/w2AjHF6Nra) and subscribe to the #bot_updates announcement channel to receive all announcements when updates are made to the bot", inline=False)
+        buttler4.set_thumbnail(url=bot)
+        buttler4.set_footer(text=note)
+
+        buttler5 = discord.Embed(color=color, timestamp=time, title=f"ButtlerBots's Development Team:", description=f"**__Project Leaders:__**\nMekasu, Kastien\n**__Project Members:__**\n", inline=False)
+        buttler5.set_thumbnail(url=bot)
+        buttler5.set_footer(text=note)
+
+        buttler6 = discord.Embed(color=color, timestamp=time, title="To Get In Touch With The Creators:", description=f"**__Mekasu__**\n**Email:** __mekasurenae@outlook.com__\n**Discord:** __mekasu#7632__\n**Myspace:** __myspace.com/mekasu0124__\n\n\n**Kastien**\n**Email:** __katarebornmc@gmail.com__\n**Discord:** __Kastien-Dev#4697__")
+        buttler6.set_thumbnail(url=bot)
+        buttler6.set_footer(text=note)
+
+        buttler7 = discord.Embed(color=color, timestamp=time, title=f"Disclaimer:", description=f"Please keep in mind that I am always in development. I am always due to change at any given time. In the event that I ever change, add, or remove a characteristic from myself, I will always let you know in the announcements channel, or by typing `>bbupdates`")
+        buttler7.set_thumbnail(url=bot)
+        buttler7.set_footer(text=note1)
+
+        panels = [buttler1, buttler2, buttler3, buttler4, buttler5, buttler6, buttler7] 
+        msg = await ctx.send(embed=buttler)
+
+        for embed in panels:
+            await asyncio.sleep(10)
+            await msg.edit(embed=embed)
+
+    @commands.command(aliases=['mekasu'])
+    @commands.has_any_role('Owner', 'Head Dev')
+    async def ownerhelpmenu(self, ctx):
+
+        color = random.randint(0, 0xFFFFFF)
+        time = datetime.datetime.utcnow()
+
+        with open('./master.json', 'r', encoding='utf-8-sig') as apple:
+            data = json.load(apple)
+        
+        mekasu = data["users"]["Shellbyy"]
+
+        with open('./commands.json', 'r', encoding='utf-8-sig') as owner:
+            data = json.load(owner)
+
+        stuff = data["commands"]["owner"]
+
+        owner1 = discord.Embed(color=color, timestamp=time, title=f"Welcome Mistress {self.bot.get_user(mekasu).name}. Here's your help menu :)", description=f"{str(stuff)}")
+        
+        channel = self.bot.get_channel(staff_commands)
+        await channel.send(embed=owner1)
+
+
+    @commands.command(aliases=['kastien'])
+    @commands.has_any_role('Owner', 'Head Dev')
+    async def help2(self, ctx):
+
+        with open('./master.json', 'r', encoding='utf-8-sig') as apple2:
+            data = json.load(apple2)
+
+        kastien = data["users"]["kastien"]
+
+        owner2 = discord.Embed(color=random.randint(0, 0xFFFFFF), title=f"Welcome Mister {self.bot.get_user(kastien).name}. How may I assist you today?")
+        owner2.add_field(name="Are you wanting to display information about me?", value="if so then please use `>binfo`")
+        owner2.add_field(name="testing", value="testing")
+        owner2.timestamp = datetime.datetime.utcnow()
+        owner2.set_thumbnail(url=self.bot.get_user(kastien).avatar_url)
+
+        channel = self.bot.get_channel(staff_commands)
+        await channel.send(embed=owner2)
+        
     
 def setup(bot):
     bot.add_cog(HelpCommands(bot))

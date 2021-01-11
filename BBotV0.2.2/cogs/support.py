@@ -2,16 +2,11 @@ import discord
 import json
 import random
 import os
+import datetime
 
 from os import error
 from discord.ext import commands
 from discord.ext.commands import Cog 
-
-with open('./master.json', 'r', encoding='utf-8-sig') as f:
-    data = json.load(f)
-
-
-
 
 class Support(commands.Cog):
 
@@ -21,20 +16,22 @@ class Support(commands.Cog):
 
     @commands.command()
     async def bsupport(self, ctx):
-        names = ['pikachu', 'bulbasaur', 'meowth', 'squirtle', 'togapi']
-        name = random.choice(names)
-        category = discord.utils.get(ctx.guild.categories, name='Occupied_Support_Channels')
-        channels = discord.utils.get(ctx.guild.text_channels, name=name)
-        while channels in category is True:    
-            if name is not None:
-                category = discord.utils.get(ctx.guild.categories, name='Occupied_Support_Channels')
-                for channel in category.text_channels:
-                    if channel.name == name:
-                        Support()                    
-                    else:
-                        channel = await ctx.guild.create_text_channel(name, overwrites=None, category=category)
-                        embed1 = discord.Embed(color=discord.Colour.blue(), title=f"Welcome To Your Help Channel, {ctx.author}", description=f"Please type a brief description, and your code your having problems with and someone will be with you soon :)")
-                        await channel.send(embed=embed1)
+
+        color = random.randint(0, 0xFFFFFF)
+        time = datetime.datetime.utcnow()
+
+        category = discord.utils.get(ctx.guild.categories, name='Save_Us')
+        channel = discord.utils.get(ctx.guild.text_channels, name=ctx.author.name, category=category)
+
+        embed1 = discord.Embed(color=discord.Colour.blue(), title=f"Welcome To Your Help Channel, {ctx.author.name}", description=f"Please type a brief description, and your code your having problems with and someone will be with you soon :)")
+        msg = await channel.send(embed=embed1)
+        ans = await self.bot.wait_for('message')
+
+        if all(x.isprintable() for x in ans.content):
+            embed2 = discord.embed(color=color, timestamp=time, title=f"{ctx.author.name}", description=f"{ans.content}")
+            await msg.edit(embed=embed2)
+            await msg.pin()
+        
 
     @commands.command()
     async def bclose(ctx):
