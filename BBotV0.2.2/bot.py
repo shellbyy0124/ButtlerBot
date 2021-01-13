@@ -1,7 +1,6 @@
 import asyncio
 import json
 import discord
-import psycopg2
 
 from os import error
 from discord.ext import commands, tasks

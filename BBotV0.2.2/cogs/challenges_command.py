@@ -1,4 +1,3 @@
-from os import error
 import discord
 import random
 import datetime
@@ -78,10 +77,11 @@ class Challenges(commands.Cog):
                                 with open('./challenges.json', 'r', encoding='utf-8-sig') as g:
                                     data = json.load(g)
 
+                                current_data = data
                                 new_data = data["challenges"][str(ans3.content)] = {"challenge_name" : str(ans2.content), "challenge_details" : str(ans4.content)}
 
                                 with open('./challenges.json', 'w', encoding='utf-8-sig') as x:
-                                    data = json.dump(new_data, x, indent=4)
+                                    data = json.dump(current_data, new_data, indent=4)
                         
                             else:
                                 error()
