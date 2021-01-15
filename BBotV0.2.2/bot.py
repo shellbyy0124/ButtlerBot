@@ -19,6 +19,7 @@ members_leave = data["channels"]["members_leave"]
 LT = data["guild"]["LT"]
 bot_spam = data["channels"]["bot_spam"]
 warnings = data["channels"]["warnings"]
+botbugs = data["channels"]["botbugs"]
 
 intents = discord.Intents.all()
 
@@ -27,23 +28,18 @@ bot = commands.Bot(command_prefix=command_prefix, intents=intents)
 @bot.event
 async def on_ready():
 
-    cogs = ["cogs.binfo", "cogs.challenges_command", "cogs.coinflip", "cogs.dev", "cogs.generalcommands",
-            "cogs.menu", "cogs.profiles", "cogs.rules", "cogs.staff", "cogs.staffapplication", "cogs.taskloops", "cogs.teams", "cogs.welcome"]
-
-    channel = bot.get_channel(bot_spam)
+    cogs = ["cogs.dev", "cogs.generalcommands", "cogs.hiddencommands", "cogs.menu", "cogs.minigames", "cogs.profiles", "cogs.rules", "cogs.staff", "cogs.staffapplication", "cogs.taskloops", "cogs.teams", "cogs.welcome"]
 
     for cog in cogs:
         bot.load_extension(cog)
-        a = await channel.send(f"**__ButtlerBot Extension Loader__**\n```Loading Next Cog:\n{cog}```\nThis is an automated message. This message will delete itself")
-        await asyncio.sleep(3)
-        await a.delete()
-        b = await channel.send(f"**__ButtlerBot Extension Loader__**\n```{cog} has been loaded```\nThis is an automated message. This message will delete itself")
+        channel = bot.get_channel(bot_spam)
+        await channel.send(f"{cog} loaded")
         await asyncio.sleep(1)
-        await b.delete()
 
+    channel = bot.get_channel(bot_spam)
     await channel.send(f"**__ButtlerBot Extension Loader__**Start Up Complete!\nAll cogs have been loaded, and are ready to go\n```{', '.join(cogs)}```\nThis is an automated message. This message will delete itself")
-    await asyncio.sleep(5)
-    await channel.purge(limit=1)
+    await asyncio.sleep(3)
+    await channel.purge(limit=14)
 
 @bot.event
 async def on_member_remove(member):

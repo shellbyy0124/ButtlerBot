@@ -84,7 +84,7 @@ class Devs(commands.Cog):
 
     @commands.command()
     @commands.has_any_role("Owner", "Head Dev")
-    async def addingbots(self, ctx):
+    async def baddingbots(self, ctx):
         
         def check(m):
             return m.author == ctx.author

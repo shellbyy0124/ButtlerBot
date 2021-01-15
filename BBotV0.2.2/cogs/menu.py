@@ -13,6 +13,10 @@ with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 
 LT = data["guild"]["LT"]
+
+with open('./users.json', 'r', encoding='utf-8-sig') as g:
+    data = json.load(g)
+
 kastien = data["users"]["Kastien"]
 shellbyy = data["users"]["Shellbyy"]
 
@@ -48,7 +52,7 @@ class HelpCommands(commands.Cog):
         paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx, remove_reactions=False)
         paginator.add_reaction('⏪', "back")
         paginator.add_reaction('⏩', "next")
-        embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10, embed11, embed12, embed13, embed14, embed15]
+        embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8, embed9, embed10, embed11, embed12, embed13, embed14, embed15, embed16]
         await paginator.run(embeds)
 
     @commands.command()
@@ -71,12 +75,12 @@ class HelpCommands(commands.Cog):
         adminembeds = [adminembed1, adminembed2, adminembed3, adminembed4, adminembed5, adminembed6, adminembed7, adminembed8, adminembed9]
         await paginator.run(adminembeds)
 
-    @commands.command(aliases=['mekasu'])
-    @commands.has_any_role('Owner')
+    @commands.command(aliases=['dev'])
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev')
     async def bdev(self, ctx):
         
         embed1 = discord.Embed(color=self.color, timestamp=self.time, title="Updating The Challenges List", description="`>buplist` No Dev is to execute this command unless they have approval from the Head Developer", inline=False).set_thumbnail(url=self.bot).set_footer(text="Page 1/6")
-        embed2 = discord.Embed(color=self.color, timestamp=self.time, title="Announcements For Adding Bots", description="`>addingbots` This announcement is for when we are adding new bots that have been approved by the Head Developer to be added to the discord! This command is only to be used by Mekasu, KataReborn, or a member of the developer team that has permissions", inline=False).set_thumbnail(url=self.bot).set_footer(text="Page 2/6")
+        embed2 = discord.Embed(color=self.color, timestamp=self.time, title="Announcements For Adding Bots", description="`>baddingbots` This announcement is for when we are adding new bots that have been approved by the Head Developer to be added to the discord! This command is only to be used by Mekasu, KataReborn, or a member of the developer team that has permissions", inline=False).set_thumbnail(url=self.bot).set_footer(text="Page 2/6")
         embed3 = discord.Embed(color=self.color, timestamp=self.time, title="Purging Message", description="`>bpurge X` this command will remove X amount of messages excluding pinned messages.", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 3/6")    
         embed4 = discord.Embed(color=self.color, timestamp=self.time, title="Information Commands", description="`>blistall`, `>blistmem`, `>blistroles` are all use to obtain the list of roles, members, and the list of members in their perspective roles within the discord", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 4/6")
         embed5 = discord.Embed(color=self.color, timestamp=self.time, title="Updating Bots Announcement", description="`>bbotupdates <message>` is for the Head Dev to announce any, and all updates, made to any of the bots within the discord.", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 5/6")
