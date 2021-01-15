@@ -73,7 +73,7 @@ class Administration(commands.Cog):
 
 
     @commands.command(aliases=["bpurge"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins')
+    @commands.has_any_role('Owner', 'Head Dev')
     async def clear(self, ctx, amount:int):
         await ctx.channel.purge(limit=amount, check=lambda m: not m.pinned)
 
@@ -292,7 +292,7 @@ class Administration(commands.Cog):
 
 
     @commands.command()
-    @commands.has_any_role("Owner", "Head Dev", "Dev", "Head Admin")
+    @commands.has_any_role("Owner", "Head Dev", "Head Admin")
     async def bpromotion(self, ctx, member:discord.Member):
 
         color = random.randint(0, 0xFFFFFF)
@@ -319,12 +319,48 @@ class Administration(commands.Cog):
         await member.send(embed=embed1)
 
     @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderators')
-    async def close(self, ctx, channel):
-            
-        await ctx.send("This channel will be closing in 30 seconds.")
-        await asyncio.sleep(30)
-        await ctx.message.channel.delete()
+    @commands.has_any_role("Owner", "Head Dev", "Dev", "Head Admin", "Admins")
+    async def bbotcommunity(self, ctx):
+
+        def check(m):
+            return m.author == ctx.author
+
+        color = random.randint(0, 0xFFFFFF)
+        time = datetime.datetime.utcnow()
+        channel1 = self.bot.get_channel(staff_commands)
+        channel2 = self.bot.get_channel(community_updates)
+
+        embed1 = discord.Embed(color=color, timestamp=time, title="Welcome To The Buttler Announcement Editor:", description="Please Use This Template To Fill Out Your Announcement For Our Community:\n```\nAnnouncement Name:\nAnnouncement:\nIn this category you are free to use what emoji's, etc. that you would like to use. You can be as creative as you want to be so long as you stay on topic.\n```", inline=False).set_footer(text="Enter `ready` when you're ready to begin.")
+
+        if ctx.channel == channel1:
+            await ctx.message.delete()
+            msg1 = await ctx.send(embed=embed1)
+            ans1 = await self.bot.wait_for('message', check=check)
+            embed2 = discord.Embed(color=color, timestamp=time, title="What Is The Announcement Name?")
+
+            if ans1.content.lower() == "ready":
+                await ans1.delete()
+                await msg1.edit(embed=embed2)
+                ans2 = await self.bot.wait_for('message', check=check)
+                embed3 = discord.Embed(color=color, timestamp=time, title=f"{ans2.content}", description="**__What is the announcement?__**", inline=False)
+
+                if all(i.isprintable() for i in ans2.content):
+                    await ans2.delete()
+                    await msg1.edit(embed=embed3)
+                    ans3 = await self.bot.wait_for('message', check=check)
+                    final_embed = discord.Embed(color=color, timestamp=time, title=f":red_circle:**__ANNOUNCEMENT INCOMING!__**:red_circle:", description=f"**__{ans2.content}__**\n\n{ans3.content}", inline=False).set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
+
+                    if all(i.isprintable() for i in ans3.content):
+                        await ans3.delete()
+                        await msg1.delete()
+                        msg2 = await channel2.send(embed=final_embed)
+                        await msg2.pin()
+                        await channel2.purge(limit=1)
+        else:
+            await ctx.message.delete()
+            bb = await ctx.send("You are not in the appropriate channel to execute this command. Please go to the #staff_commands channel to use this command!")
+            await asyncio.sleep(15)
+            await bb.delete()
 
 def setup(bot):
     bot.add_cog(Administration(bot))

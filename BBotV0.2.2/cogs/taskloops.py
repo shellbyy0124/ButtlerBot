@@ -61,15 +61,9 @@ class TaskLoops(commands.Cog):
         await channel_one.send(embed=embed1)
         await asyncio.sleep(300)
 
-        embed2 = discord.Embed(color=color, timestamp=time, title="fill in info", description="fill in info", inline=False)
+        embed2 = discord.Embed(color=color, timestamp=time, title="If you can't remember", description="`>bhelp`", inline=False)
         embed2.set_thumbnail(url=bot)
         embed2.set_footer(text=this)
-        await channel_one.send(embed=embed2)
-        await asyncio.sleep(300)
-
-        embed3 = discord.Embed(color=color, timestamp=time, title="fill in info", description="fill in infor", inline=False)
-        embed3.set_thumbnail(url=bot)
-        embed3.set_footer(text=this)
         await channel_one.send(embed=embed2)
         await asyncio.sleep(300)
         

@@ -32,6 +32,7 @@ class Rules(commands.Cog):
         embedrules1.add_field(name="Number 7:", value="Keep the chats in accordance with the channels topic. If you're not sure read the top of the channel window or ask", inline=False)
         embedrules1.add_field(name="Number 8:", value="No Intimidation! We grow and learn together from day one and on!", inline=False)
         embedrules1.add_field(name="Number 9:", value="Use the proper markups when submitting code. Discord supports many languages!", inline=False)
+        embedrules1.add_field(name="Number 10:", value="Do not create your own invite to this discord. An invite link has already been created for you to use. Type `>binbite` for the link", inline=False)
         embedrules1.add_field(name="**Disclaimer**:", value="These rules are subject to change at any time and will be posted to the announcements channel. This pyramid is at the staff discression as to the punishment they seem fit. You always have the right to appeal!", inline=False)
         msg = await ctx.send(embed=embedrules1)
         await asyncio.sleep(120)

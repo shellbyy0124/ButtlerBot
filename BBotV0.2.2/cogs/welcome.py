@@ -34,6 +34,7 @@ class DMUser(commands.Cog):
         welcome.add_field(name="Sixth:", value="Use the proper markups when submitting code. Discord supports many languages!", inline=False)
         welcome.add_field(name="Seventh:", value="When posting links in the **_Resources_** category, you may __ONLY__ post links that are pertinent to that channel. Any NSFW gags, hacks, trackers, etc will result in your account getting reported. We have all ages in this group!", inline=False)
         welcome.add_field(name="Eighth:", value="Use the #bot_spam channel for all of your bot commands that are not pertinent with your current conversation, or if you need/want to look something up!", inline=False)
+        welcome.add_field(name="Ninth:", value="Do not create your own invite to this discord. An invite link has already been created for you to use. Type `>binbite` for the link", inline=False)
         welcome.add_field(name="And Finally:", value="If you have any more questions, use `>buttlerhelp` to call me, and if you'd like to get a better look at the rules, `>buttlerrules`", inline=False)
         welcome.add_field(name="Note:", value="In order to gain access to the discord, please type `!agree`. If the command doesn't work, then please get in touch with a staff member!", inline=False)
 

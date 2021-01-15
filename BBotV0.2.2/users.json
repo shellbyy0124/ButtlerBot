@@ -1,0 +1,14 @@
+{
+    "users": {
+        "Shellbyy": {
+            "id" : 260009824945831936,
+            "name": "Shellbyy",
+            "bank": 750
+        },
+        "Kastien" :{
+            "id" : 515982083907256330,
+            "name" : "Katareborn",
+            "bank" : 750
+        }
+    }
+}

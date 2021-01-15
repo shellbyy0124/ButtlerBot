@@ -1,9 +1,11 @@
 import asyncio
 import json
 import discord
+import random
+import datetime
 
 from os import error
-from discord.ext import commands, tasks
+from discord.ext import commands
 from discord.ext.commands import cog
 
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
@@ -20,24 +22,28 @@ warnings = data["channels"]["warnings"]
 
 intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix=command_prefix, intents=intents, nickname_command=None)
+bot = commands.Bot(command_prefix=command_prefix, intents=intents)
 
 @bot.event
 async def on_ready():
 
-    cogs = ["cogs.announcement", "cogs.challenges_command", "cogs.coinflip", "cogs.generalcommands",
-            "cogs.menu", "cogs.profiles", "cogs.rules", "cogs.staff", "cogs.staffapplication",
-            "cogs.taskloops", "cogs.teams", "cogs.welcome"]
+    cogs = ["cogs.binfo", "cogs.challenges_command", "cogs.coinflip", "cogs.dev", "cogs.generalcommands",
+            "cogs.menu", "cogs.profiles", "cogs.rules", "cogs.staff", "cogs.staffapplication", "cogs.taskloops", "cogs.teams", "cogs.welcome"]
+
+    channel = bot.get_channel(bot_spam)
 
     for cog in cogs:
         bot.load_extension(cog)
-        channel = bot.get_channel(bot_spam)
-        await channel.send(f"{cog} loaded")
+        a = await channel.send(f"**__ButtlerBot Extension Loader__**\n```Loading Next Cog:\n{cog}```\nThis is an automated message. This message will delete itself")
+        await asyncio.sleep(3)
+        await a.delete()
+        b = await channel.send(f"**__ButtlerBot Extension Loader__**\n```{cog} has been loaded```\nThis is an automated message. This message will delete itself")
         await asyncio.sleep(1)
+        await b.delete()
 
-    channel = bot.get_channel(bot_spam)
-    await channel.send("Cogs Loaded and Ready To Go!")
-    await channel.purge(limit=14, check=lambda m: not m.pinned)
+    await channel.send(f"**__ButtlerBot Extension Loader__**Start Up Complete!\nAll cogs have been loaded, and are ready to go\n```{', '.join(cogs)}```\nThis is an automated message. This message will delete itself")
+    await asyncio.sleep(5)
+    await channel.purge(limit=1)
 
 @bot.event
 async def on_member_remove(member):
