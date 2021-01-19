@@ -218,12 +218,12 @@ class Profiles(commands.Cog):
             channel1 = self.bot.get_channel(profiles)
             await channel1.send(embed=final_message)
 
-            with open('./users.json', 'r', encoding='utf-8-sig') as f:
+            with open('./master.json', 'r', encoding='utf-8-sig') as f:
                 data= json.load(f)
 
             info = data["users"][str(member.name)][{"id" : int(member.id), "bank" : 1000, "roles" : str(member.roles)}]
 
-            with open('./users.json', 'w', encoding='utf-8-sig') as fw:
+            with open('./master.json', 'w', encoding='utf-8-sig') as fw:
                 json.dump(data, info, indent=4)
 
             await asyncio.sleep(10)

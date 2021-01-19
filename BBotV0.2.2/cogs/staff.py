@@ -1,21 +1,14 @@
 import warnings
-import DiscordUtils as DiscordUtils
+import DiscordUtils
 import discord
 import json
 import asyncio
-import os
 import datetime
 import random
-import sqlite3
 
-from os import error
-from discord import member
 from discord.ext import commands
 from discord.ext.commands import cog
-from discord.utils import get
-from isort import logo
 
-# switch me to database
 with open('./master.json', 'r', encoding='utf-8-sig') as f:
     data = json.load(f)
 warnings = data["channels"]["warnings"]
@@ -28,7 +21,10 @@ appeals = data["channels"]["appeals"]
 class Administration(commands.Cog):
 
     def __init__(self, bot):
+
         self.bot = bot
+        self.color = random.randint(0, 0xFFFFFF)
+        self.time = datetime.datetime.utcnow()
 
     @commands.command(aliases=["bstats"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -89,7 +85,7 @@ class Administration(commands.Cog):
         else:
             game = None
         voice_state = None if not user.voice else user.voice.channel
-        embed1 = discord.Embed(timestamp=ctx.message.created_at, color=ctx.author.color)
+        embed1 = discord.Embed(timestamp=ctx.message.created_at, color=self.color)
         embed1.add_field(name='User ID', value=user.id, inline=True)
         embed1.add_field(name='Nick', value=user.nick, inline=True)
         embed1.add_field(name='Status', value=user.status, inline=True)
@@ -135,7 +131,7 @@ class Administration(commands.Cog):
     @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def warn(self, ctx, member:discord.Member, reason):
 
-        warn = discord.Embed(color= discord.Colour.orange(), timestamp=datetime.datetime.utcnow(), title=f":red_circle:**__WARNING__**:red_circle:", description=f"Staff Member: {ctx.author.display_name}\nStaff member Role: {ctx.author.top_role}\nMember: {member.display_name}\nReason: {reason}")
+        warn = discord.Embed(color= discord.Colour.red(), timestamp=datetime.datetime.utcnow(), title=f":red_circle:**__WARNING__**:red_circle:", description=f"Staff Member: {ctx.author.display_name}\nStaff member Role: {ctx.author.top_role}\nMember: {member.display_name}\nReason: {reason}")
 
         await member.send(embed=warn)
         channel = self.bot.get_channel(warnings)
@@ -149,12 +145,10 @@ class Administration(commands.Cog):
             return m.author == ctx.author
 
         await ctx.message.delete()
-        color = random.randint(0, 0xFFFFFF)
-        time = datetime.datetime.utcnow()
         number = random.randint(100000, 199999)
         channel2020 = staff_commands
         
-        embed1 = discord.Embed(color=color, timestamp=time, title="ButtlerBot Warning Editor:", description="Please Enter The Name Of The User Being Temaporarily Banned:")
+        embed1 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Warning Editor:", description="Please Enter The Name Of The User Being Temaporarily Banned:")
         
         if ctx.channel.id == channel2020:
 
@@ -170,7 +164,7 @@ class Administration(commands.Cog):
                         await ans1.delete()
                         member = ans1.content
 
-                        embed2 = discord.Embed(color=color, timestamp=time, title=f"ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\n\nEnter The Length Of Time:")
+                        embed2 = discord.Embed(color=self.color, timestamp=self.time, title=f"ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\n\nEnter The Length Of Time:")
                         await msg1.edit(embed=embed2)
                         ans2 = await self.bot.wait_for('message', check=check)
 
@@ -180,7 +174,7 @@ class Administration(commands.Cog):
 
                             time = int(ans2.content)
 
-                            embed3 = discord.Embed(color=color, timestamp=time, title="ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\nLength Of Time:\n{ans2.content}s\n\nPlease Enter The Reason For The Temporary Mute:")
+                            embed3 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans1.content}\nLength Of Time:\n{ans2.content}s\n\nPlease Enter The Reason For The Temporary Mute:")
                             await msg1.edit(embed=embed3)
                             ans3 = await self.bot.wait_for('message', check=check)
 
@@ -188,7 +182,7 @@ class Administration(commands.Cog):
 
                                 await ans3.delete()
 
-                                embed4 = discord.Embed(color=color, timestamp=time, title="Buttler Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans2.content}\nLength Of Time:\n{ans2.content}s\nReason: {ans3.content}")
+                                embed4 = discord.Embed(color=self.color, timestamp=self.time, title="Buttler Warning Editor:", description=f"Staff Member: {ctx.author.display_name}\nStaff Member Role: {ctx.author.top_role}\nMember: {ans2.content}\nLength Of Time:\n{ans2.content}s\nReason: {ans3.content}")
                                 await msg1.delete()
                                 channel = self.bot.get_channel(tempmutes)
                                 a = await channel.send(embed=embed4)
@@ -216,40 +210,24 @@ class Administration(commands.Cog):
 
                                 if time > 1800:
 
-                                    appealembed1 = discord.Embed(color=color, timestamp=time, title="Your tempmute time is greater than 30 minutes. If you would like to submit an appeal, please type `appeal`.")
+                                    appealembed1 = discord.Embed(color=self.color, timestamp=self.time, title="Your tempmute time is greater than 30 minutes. If you would like to submit an appeal, please type `appeal`.")
                                     await member.send(embed=appealembed1)
                                     appeal1 = await self.bot.wait_for('message', check=check)
 
                                     if appeal1.content.lower() == "appeal":
 
-                                        appealembed2 = discord.Embed(color=color, timestamp=time, title=f"Appeal {number}", description=f"Name: {member.display_name}\nAppeal Number: {number}\n\nPlease enter why you are appealing your temporary mute. Please use atleast 3-5 supporting facts as to why your tempmute should be lifted.")
+                                        appealembed2 = discord.Embed(color=self.color, timestamp=self.time, title=f"Appeal {number}", description=f"Name: {member.display_name}\nAppeal Number: {number}\n\nPlease enter why you are appealing your temporary mute. Please use atleast 3-5 supporting facts as to why your tempmute should be lifted.")
                                         await appeal1.edit(embed=appealembed2)
                                         appeal2 = await self.bot.wait_for('message')
 
                                         if all(x.isalpha() or x.isspace() for x in appeal2.content):
 
-                                            appealembed3 = discord.Embed(color=color, timestamp=time, title=f"Appeal {number}", description=f"Name: {member.display_name}\nAppeal Number: {number}\nReason: {appeal2}")
+                                            appealembed3 = discord.Embed(color=self.color, timestamp=self.time, title=f"Appeal {number}", description=f"Name: {member.display_name}\nAppeal Number: {number}\nReason: {appeal2}")
                                             
                                             channel1 = self.bot.get_channel(appeals)
                                             b = await channel1.send(embed=appealembed3)
                                             await member.send(embed=embed4)
                                             await b.pin()
-                                    else:
-                                        await ctx.send("error line 236")
-                                else:
-                                    await ctx.send("error line 238")
-                            else:
-                                await ctx.send("error line 240")
-                        else:
-                            await ctx.send("error line 242")
-                    else:
-                        await ctx.send("error line 244")
-                else:
-                    await ctx.send("error line 246")
-        else:
-            msg = await ctx.send(":red_circle:**__YOU ARE NOT IN THE APPROPRIATE CHANNEL. PLEASE GO TO #staff_commands TO USE THIS COMMAND!")
-            await asyncio.sleep(10)
-            await msg.delete()
     
     @commands.command()
     @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Team Leader')
@@ -295,8 +273,6 @@ class Administration(commands.Cog):
     @commands.has_any_role("Owner", "Head Dev", "Head Admin")
     async def bpromotion(self, ctx, member:discord.Member):
 
-        color = random.randint(0, 0xFFFFFF)
-        timestamp = datetime.datetime.utcnow()
         image = member.avatar_url
         image2 = self.bot.user.avatar_url
         roles = ["Community Helpers", "Moderators", "Admins", "Head Admin", "Dev"]
@@ -305,7 +281,7 @@ class Administration(commands.Cog):
         await member.remove_roles(old_role)
         await member.add_roles(new_role)
 
-        final_embed = discord.Embed(color=color, timestamp=timestamp, icon_url=image, title="**__INCOMING PROMOTION!__**", description=f"{member.mention} has been promoted to {new_role.name}! We are very excited to welcome you to the staff team! <3")
+        final_embed = discord.Embed(color=self.color, timestamp=self.timestamp, icon_url=image, title="**__INCOMING PROMOTION!__**", description=f"{member.mention} has been promoted to {new_role.name}! We are very excited to welcome you to the staff team! <3")
         channel1 = self.bot.get_channel(community_updates)
         msg1 = await channel1.send(embed=final_embed)
         await msg1.pin()
@@ -315,7 +291,7 @@ class Administration(commands.Cog):
             
         stuff = data["commands"][str(member.top_role)]
 
-        embed1 = discord.Embed(color=color, timestamp=timestamp, icon_url=image2, title="Commands Available To You:", description=f"{stuff}")
+        embed1 = discord.Embed(color=self.color, timestamp=self.timestamp, icon_url=image2, title="Commands Available To You:", description=f"{stuff}")
         await member.send(embed=embed1)
 
     @commands.command()
@@ -325,30 +301,28 @@ class Administration(commands.Cog):
         def check(m):
             return m.author == ctx.author
 
-        color = random.randint(0, 0xFFFFFF)
-        time = datetime.datetime.utcnow()
         channel1 = self.bot.get_channel(staff_commands)
         channel2 = self.bot.get_channel(community_updates)
 
-        embed1 = discord.Embed(color=color, timestamp=time, title="Welcome To The Buttler Announcement Editor:", description="Please Use This Template To Fill Out Your Announcement For Our Community:\n```\nAnnouncement Name:\nAnnouncement:\nIn this category you are free to use what emoji's, etc. that you would like to use. You can be as creative as you want to be so long as you stay on topic.\n```", inline=False).set_footer(text="Enter `ready` when you're ready to begin.")
+        embed1 = discord.Embed(color=self.color, timestamp=self.time, title="Welcome To The Buttler Announcement Editor:", description="Please Use This Template To Fill Out Your Announcement For Our Community:\n```\nAnnouncement Name:\nAnnouncement:\nIn this category you are free to use what emoji's, etc. that you would like to use. You can be as creative as you want to be so long as you stay on topic.\n```", inline=False).set_footer(text="Enter `ready` when you're ready to begin.")
 
         if ctx.channel == channel1:
             await ctx.message.delete()
             msg1 = await ctx.send(embed=embed1)
             ans1 = await self.bot.wait_for('message', check=check)
-            embed2 = discord.Embed(color=color, timestamp=time, title="What Is The Announcement Name?")
+            embed2 = discord.Embed(color=self.color, timestamp=self.time, title="What Is The Announcement Name?")
 
             if ans1.content.lower() == "ready":
                 await ans1.delete()
                 await msg1.edit(embed=embed2)
                 ans2 = await self.bot.wait_for('message', check=check)
-                embed3 = discord.Embed(color=color, timestamp=time, title=f"{ans2.content}", description="**__What is the announcement?__**", inline=False)
+                embed3 = discord.Embed(color=self.color, timestamp=self.time, title=f"{ans2.content}", description="**__What is the announcement?__**", inline=False)
 
                 if all(i.isprintable() for i in ans2.content):
                     await ans2.delete()
                     await msg1.edit(embed=embed3)
                     ans3 = await self.bot.wait_for('message', check=check)
-                    final_embed = discord.Embed(color=color, timestamp=time, title=f":red_circle:**__ANNOUNCEMENT INCOMING!__**:red_circle:", description=f"**__{ans2.content}__**\n\n{ans3.content}", inline=False).set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
+                    final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f":red_circle:**__ANNOUNCEMENT INCOMING!__**:red_circle:", description=f"**__{ans2.content}__**\n\n{ans3.content}", inline=False).set_footer(text=f"This announcement has been brought to you by {ctx.author.display_name}")
 
                     if all(i.isprintable() for i in ans3.content):
                         await ans3.delete()
@@ -361,6 +335,12 @@ class Administration(commands.Cog):
             bb = await ctx.send("You are not in the appropriate channel to execute this command. Please go to the #staff_commands channel to use this command!")
             await asyncio.sleep(15)
             await bb.delete()
+
+    @commands.command(aliases=['bteam'])
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Team Captain')
+    async def createteams(self, ctx):
+
+        pass
 
 def setup(bot):
     bot.add_cog(Administration(bot))
