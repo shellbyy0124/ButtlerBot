@@ -1,5 +1,3 @@
-import warnings
-import DiscordUtils
 import discord
 import json
 import asyncio
@@ -25,6 +23,7 @@ class Administration(commands.Cog):
         self.bot = bot
         self.color = random.randint(0, 0xFFFFFF)
         self.time = datetime.datetime.utcnow()
+        self.url = self.bot.user.avatar_url
 
     @commands.command(aliases=["bstats"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -72,34 +71,6 @@ class Administration(commands.Cog):
     @commands.has_any_role('Owner', 'Head Dev')
     async def clear(self, ctx, amount:int):
         await ctx.channel.purge(limit=amount, check=lambda m: not m.pinned)
-
-
-    @commands.command(aliases=["bwhois"])
-    @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
-    async def whois(self, ctx, user: discord.Member):
-        user = user or ctx.author
-        if user is None:
-            user = ctx.message.author
-        if user.activity is not None:
-            game = user.activity.name
-        else:
-            game = None
-        voice_state = None if not user.voice else user.voice.channel
-        embed1 = discord.Embed(timestamp=ctx.message.created_at, color=self.color)
-        embed1.add_field(name='User ID', value=user.id, inline=True)
-        embed1.add_field(name='Nick', value=user.nick, inline=True)
-        embed1.add_field(name='Status', value=user.status, inline=True)
-        embed1.add_field(name='On Mobile', value=user.is_on_mobile(), inline=True)
-        embed1.add_field(name='In Voice', value=voice_state, inline=True)
-        embed1.add_field(name='Highest Role', value=user.top_role.name, inline=True)
-        embed1.add_field(name='Account Created', value=user.created_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
-        embed1.add_field(name='Join Date', value=user.joined_at.__format__('%A, %d. %B %Y @ %H:%M:%S'))
-        embed1.set_thumbnail(url=user.avatar_url)
-        embed1.set_author(name=user.name, icon_url=user.avatar_url)
-        embed1.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        channel = self.bot.get_channel(staff_commands)
-        await channel.send(embed=embed1)
-
 
     @commands.command(aliases=["block"])
     @commands.has_any_role('Owner', 'Head Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
@@ -336,11 +307,6 @@ class Administration(commands.Cog):
             await asyncio.sleep(15)
             await bb.delete()
 
-    @commands.command(aliases=['bteam'])
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Team Captain')
-    async def createteams(self, ctx):
-
-        pass
 
 def setup(bot):
     bot.add_cog(Administration(bot))
