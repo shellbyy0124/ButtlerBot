@@ -1,9 +1,12 @@
-{
+﻿{
     "users": {
         "Shellbyy": {
-            "id" : 260009824945831936,
             "name": "Shellbyy",
-            "bank": 750000000
+            "bank": 800
+        },
+        "shellbyy_test_account": {
+            "id": 806998512382115840,
+            "bank": 1000
         }
     }
 }

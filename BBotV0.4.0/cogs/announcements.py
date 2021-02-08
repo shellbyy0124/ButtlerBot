@@ -71,10 +71,11 @@ class Announcements(commands.Cog):
                             await ans3.delete()
                             await ans4.delete()
 
-                            channel = await self.bot.get_channel(community_updates)
-                            final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f":star:**__INCOMING ANNOUNCEMENT FROM {ctx.author.mention}__**:star:", description=f"**__Announcement Subject__**\n{ans2.content}\n**__Announcement:__**\n{ans3.content}", inline=False).set_thumbnail(url=ctx.author.avatar_url)
+                            channel = self.bot.get_channel(community_updates)
+                            final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f":star:**__INCOMING ANNOUNCEMENT FROM {ctx.author.name}__**:star:", description=f"**__Announcement Subject__**\n{ans2.content}\n**__Announcement:__**\n{ans3.content}", inline=False).set_thumbnail(url=ctx.author.avatar_url)
                             a = await channel.send(embed=final_embed)
                             await a.pin()
+                            await channel.purge(limit=1)
                         
                         elif ans4.content == "!exit":
 
@@ -89,19 +90,6 @@ class Announcements(commands.Cog):
                             await asyncio.sleep(10)
                             await a.delete()
 
-                        else:
-
-                            a = await ctx.send("Please take a screen shot of the steps you went through up until you received this message, and then post the screen shot in the support channels to get further assistance from our dev team")
-                            await asyncio.sleep(60)
-                            await a.delete()
-
-                    else:
-                        channel = self.bot.get_channel(errors)
-                        await channel.send("Error From Line 90 in announcement.py")
-                else:
-                    channel = self.bot.get_channel(errors)
-                    await channel.send("Error From Line 93 in announcement.py")
-
             elif ans1.content.lower() == "b":
                 
                 embed1 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description="What is the subject of your announcement?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
@@ -114,73 +102,58 @@ class Announcements(commands.Cog):
                     await msg1.edit(embed=embed2)
                     ans2 = await self.bot.wait_for('message', check=check)
 
-                    for member in ctx.guild.members:
-                        if ans2.content == member.bot:
+                    if all(i.isprintable() for i in ans2.content):
 
-                            embed3 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\nWhat is the bots purpose?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
-                            await msg1.edit(embed=embed3)
-                            ans3 = await self.bot.wait_for('message', check=check)
+                        embed3 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\nWhat is the bots purpose?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
+                        await msg1.edit(embed=embed3)
+                        ans3 = await self.bot.wait_for('message', check=check)
+
+                        if all(i.isprintable() for i in ans3.content):
+
+                            embed4 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\nWhat is your teams' thoughts on this bot?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
+                            await msg1.edit(embed=embed4)
+                            ans4 = await self.bot.wait_for('message', check=check)
 
                             if all(i.isprintable() for i in ans3.content):
 
-                                embed4 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\nWhat is your teams' thoughts on this bot?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
-                                await msg1.edit(embed=embed4)
-                                ans4 = await self.bot.wait_for('message', check=check)
+                                embed5 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\n**__Dev Teams' Thoughts:__**\n{ans4.content}\nIf you are satisfied with your entries, then please type `!save`. If not, then type `!exit`", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
+                                await msg1.edit(embed=embed5)
+                                ans5 = await self.bot.wait_for('message', check=check)
 
-                                if all(i.isprintable() for i in ans3.content):
+                                if ans5.content == "!save":
 
-                                    embed5 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\n**__Dev Teams' Thoughts:__**\n{ans4.content}\nIf you are satisfied with your entries, then please type `!save`. If not, then type `!exit`", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
-                                    await msg1.edit(embed=embed5)
-                                    ans5 = await self.bot.wait_for('message', check=check)
+                                    await ctx.message.delete()
+                                    await msg1.delete()
+                                    await ans1.delete()
+                                    await ans2.delete()
+                                    await ans3.delete()
+                                    await ans4.delete()
+                                    await ans5.delete()
 
-                                    if ans5.content == "!save":
+                                    final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f":star:**__ANNOUNCEMENT INCOMING FROM {ctx.author.name}__**:star:", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\n**__Dev Teams' Thoughts:__**\n{ans4.cont}", inline=False).set_thumbnail(url=ctx.author.avatar_url)
+                                    channel = self.bot.get_channel(bots_added)
+                                    a = await channel.send(embed=final_embed)
+                                    await a.pin()
+                                    await channel.purge(limit=1)
+                                
+                                elif ans5.content == "!exit":
 
-                                        await ctx.message.delete()
-                                        await msg1.delete()
-                                        await ans1.delete()
-                                        await ans2.delete()
-                                        await ans3.delete()
-                                        await ans4.delete()
-                                        await ans5.delete()
+                                    await ctx.message.delete()
+                                    await msg1.delete()
+                                    await ans1.delete()
+                                    await ans2.delete()
+                                    await ans3.delete()
+                                    await ans4.delete()
+                                    await ans5.delete()
 
-                                        final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f":star:**__ANNOUNCEMENT INCOMING FROM {ctx.author.mention}__**:star:", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Bots' Purpose:__**\n{ans3.content}\n**__Dev Teams' Thoughts:__**", inline=False).set_thumbnail(url=ctx.author.avatar_url).set_footer(text=footer)
-                                        channel = self.bot.get_channel(bots_added)
-                                        a = await channel.send(embed=final_embed)
-                                        await a.pin()
-                                    
-                                    elif ans5.content == "!exit":
-
-                                        await ctx.message.delete()
-                                        await msg1.delete()
-                                        await ans1.delete()
-                                        await ans2.delete()
-                                        await ans3.delete()
-                                        await ans4.delete()
-                                        await ans5.delete()
-
-                                        a = await ctx.send("**__PLEASE TYPE THE COMMAND AGAIN TO START OVER__**")
-                                        await asyncio.sleep(10)
-                                        await a.delete()
-
-                                    else:
-
-                                        a = await ctx.send("Please take a screen shot of the steps you went through up until you received this message, and then post the screen shot in the support channels to get further assistance from our dev team")
-                                        await asyncio.sleep(60)
-                                        await a.delete()
-                                else:
-                                    channel = self.bot.get_channel(errors)
-                                    await channel.send("Error From Line 170 in announcement.py")
-                            else:
-                                channel = self.bot.get_channel(errors)
-                                await channel.send("Error From Line 173 in announcement.py")
-                        else:
-                            channel = self.bot.get_channel(errors)
-                            await channel.send("Error From Line 176 in announcement.py")
+                                    a = await ctx.send("**__PLEASE TYPE THE COMMAND AGAIN TO START OVER__**")
+                                    await asyncio.sleep(10)
+                                    await a.delete()
 
             elif ans1.content.lower() == "c":
 
                 embed1 = discord.Embed(color=self.color, timestamp=self.time, title="ButtlerBot Announcement Editor", description="What is the subject of your announcement?", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
-                await msg1.edit(embed1)
+                await msg1.edit(embed=embed1)
                 ans1 = await self.bot.wait_for('message', check=check)
 
                 if all(i.isprintable() for i in ans1.content):
@@ -210,10 +183,11 @@ class Announcements(commands.Cog):
                                 await ans3.delete()
                                 await ans4.delete()
 
-                                final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f"**__INCOMING ANNOUNCEMENT FROM {ctx.author.mention}__**", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Update Notes:__**\n{ans3.content}", inline=False).set_thumbnail(url=self.url).set_footer(text=footer)
+                                final_embed = discord.Embed(color=self.color, timestamp=self.time, title=f"**__INCOMING ANNOUNCEMENT FROM {ctx.author.name}__**", description=f"**__Announcement Subject:__**\n{ans1.content}\n**__Bots' Name:__**\n{ans2.content}\n**__Update Notes:__**\n{ans3.content}", inline=False).set_thumbnail(url=self.url)
                                 channel = self.bot.get_channel(bot_updates)
                                 a = await channel.send(embed=final_embed)
                                 await a.pin()
+                                await channel.purge(limit=1)
                                 
                             elif ans4.content == "!exit":
 
@@ -227,21 +201,6 @@ class Announcements(commands.Cog):
                                 a = await ctx.send("**__PLEASE TYPE THE COMMAND AGAIN TO RESTART YOUR ANNOUCNEMENT__**")
                                 await asyncio.sleep(60)
                                 await a.delete()
-
-                            else:
-
-                                a = await ctx.send("Please take a screen shot of the steps you went through up until you received this message, and then post the screen shot in the support channels to get further assistance from our dev team")
-                                await asyncio.sleep(60)
-                                await a.delete()
-                        else:
-                            channel = self.bot.get_channel(errors)
-                            await channel.send("Error From Line 170 in announcement.py")
-                    else:
-                        channel = self.bot.get_channel(errors)
-                        await channel.send("Error From Line 173 in announcement.py")
-                else:
-                    channel = self.bot.get_channel(errors)
-                    await channel.send("Error From Line 176 in announcement.py")
         else:
             a = await ctx.send(":red_circle:**__Y0U ARE NOT IN THE CORRECT CHANNEL!__**\nPlease go to the staff commands channel to execute this command!")
             await asyncio.sleep(10)

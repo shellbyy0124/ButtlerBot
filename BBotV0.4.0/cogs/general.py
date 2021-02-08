@@ -46,7 +46,7 @@ class General(commands.Cog):
     async def bping(self, ctx):
         
         await ctx.message.delete()
-        await ctx.send(f'Pong! _takes a deep breath_ PHEW! That took: {self.bot.latency*1000}ms').set_thumbnail(url=self.url)
+        await ctx.send(f'Pong! _takes a deep breath_ PHEW! That took: {round(self.bot.latency*1000)}ms')
         a =await asyncio.sleep(10)
         await a.delete()
 
@@ -56,7 +56,7 @@ class General(commands.Cog):
         
         await ctx.message.delete()
         inv = discord.Embed(color=self.color, timestamp=self.time, title=f"Inviting Your Friends:", description=f"Any and Everyone of ages 13+ are allowed to join our discord. Please do not create your own invite link, as you can use [this one](https://discord.gg/DEzK4vStfC)").set_thumbnail(url=self.url)
-        inv.add_field(name="Discord Support Server:", value="To obtain all updates, and to receive support with Buttler Bot, please join us at our [support server](https://discord.gg/w2AjHF6Nra)").set_thumbnail(url=self.url)
+        inv.add_field(name="Discord Support Server:", value="To obtain all updates, and to receive support with Buttler Bot, please join us at our [support server]()").set_thumbnail(url=self.url)
         msg = await ctx.send(embed=inv)
         await asyncio.sleep(30)
         await msg.delete()
@@ -82,7 +82,7 @@ class General(commands.Cog):
 
         await ctx.message.delete()
 
-        category = discord.utils.get(ctx.guild.categories, name='Save_Us')
+        category = discord.utils.get(ctx.guild.categories, name='Occupied_Support_Channels')
         channel = await ctx.guild.create_text_channel(ctx.author.name, category=category)
 
         embed1 = discord.Embed(color=discord.Colour.blue(), timestamp=self.time, title=f"Welcome To Your Help Channel, {ctx.author.name}", description=f"Please type a brief description, and your code your having problems with and someone will be with you soon :)")

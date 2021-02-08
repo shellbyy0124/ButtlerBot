@@ -1,139 +1,122 @@
+import asyncio
 import discord
-import random
 import datetime
 import json
+import random
 
 from discord.ext import commands
-from discord.ext.commands import cog
+from discord.ext.commands import Cog 
 
 class CP(commands.Cog):
 
     def __init__(self, bot):
 
         self.bot = bot
+        self.time = datetime.datetime.utcnow()
+        
+    @commands.command()
+    async def cflip(self, ctx, side, amount:int):
 
-    @commands.command(aliases=['bflip'])
-    async def cpgame(self, ctx, side, amount):
-
-        color = random.randint(0, 0xFFFFFF)
-        time = datetime.datetime.utcnow()
         num = random.randint(0, 1)
-        amount = int(amount)
-        errormsg = "You are trying to bet more than you are worth! Use (command for balance inquiry) to see what your current balance is!"
-        errormsg1 = "Sorry that is not a valid entry. Please Try again! `>bflip <side> <amount>"
 
-        A = "heads"
-        B = "tails"
-
-        with open('./master.json', 'r', encoding='utf-8-sig') as user:
-            data = json.load(user)
+        with open('./users.json', 'r', encoding='utf-8-sig') as f:
+            data = json.load(f)
 
         balance = data["users"][str(ctx.author.name)]["bank"]
 
-        if int(amount) <= int(balance):
-            
-            if num == 0 and side.lower() == A:
+        if amount < balance:
 
-                heads = discord.Embed(color=color, timestamp=time, title="You Flipped Heads, and Won!", value=f"You have won {amount}! Your new balance has been updated!")
+            if num == 0 and side.lower() == "heads":
 
-                file = discord.File("/home/shellbyy/Desktop/repofolder/ButtlerBot/BBotV0.2.2/bot_images/quarterheads.jpg", filename="quarterheads.jpg")
-                heads.set_thumbnail(url="attachment://quarterheads.jpg")
-                await ctx.send(embed=heads, file=file)
-
-                with open('./master.json', 'r', encoding='utf-8-sig') as p:
-                    data= json.load(p)
-
-                data["users"][str(ctx.author.name)] = {"name":ctx.author.name,"bank":1000}
+                with open('./users.json', 'r', encoding='utf-8-sig') as p:
+                    data = json.load(p)
 
                 data["users"][str(ctx.author.name)]["bank"] += amount
 
-                info = data["users"][str(ctx.author.name)]["bank"]
+                new_bal = data["users"][str(ctx.author.name)]["bank"]
 
-                message = f"Your updated balance is ${info}"
-
-                await ctx.send(f"{message}")
-
-                with open('./master.json', 'w', encoding='utf-8-sig') as file:
+                with open('./users.json', 'w', encoding='utf-8-sig') as file:
                     data = json.dump(data, file, indent=4)
-                            
-            elif num == 1 and side.lower() == A:
 
-                heads1 = discord.Embed(color=color, timestamp=time, title="You Flipped Heads, and Lost!", value=f"You have lost {amount}! Your new balance has been updated!")
+                embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Won!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Won\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
+
+                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
+                embed1.set_thumbnail(url='attachment://quarterheads.jpg')
+                a = await ctx.send(embed=embed1, file=file)
+                await asyncio.sleep(20)
+                await a.delete()                
+
+            elif num == 1 and side.lower() == "heads":
+
+                with open('./users.json', 'r', encoding='utf-8-sig') as p:
+                    data = json.load(p)
                 
-                file = discord.File("/home/shellbyy/Desktop/repofolder/ButtlerBot/BBotV0.2.2/bot_images/quarterheads.jpg", filename="quarterheads.jpg")
-                heads1.set_thumbnail(url="attachment://quarterheads.jpg")
-                await ctx.send(embed=heads1, file=file)
-
-                with open('./master.json', 'r', encoding='utf-8-sig') as p:
-                    data= json.load(p)
-
-                data["users"][str(ctx.author.name)] = {"name":ctx.author.name,"bank":1000}
-
                 data["users"][str(ctx.author.name)]["bank"] -= amount
 
-                info = data["users"][str(ctx.author.name)]["bank"]
+                new_bal = data["users"][str(ctx.author.name)]["bank"]
 
-                message = f"Your updated balance is ${info}"
-
-                await ctx.send(f"{message}")
-
-                with open('./master.json', 'w', encoding='utf-8-sig') as file:
+                with open('./users.json', 'w', encoding='utf-8-sig') as file:
                     data = json.dump(data, file, indent=4)
+
+                embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Lost!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
+
+                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
+                embed1.set_thumbnail(url='attachment://quarterheads.jpg')
+                a = await ctx.send(embed=embed1, file=file)
+                await asyncio.sleep(20)
+                await a.delete()
+
+            elif num == 0 and side.lower() == "tails":
                 
-            elif num == 0 and side.lower() == B:
-
-                tails = discord.Embed(color=color, timestamp=time, title="You Flipped Tails, and Won!", value=f"You have won {amount}! Your new balance has been updated!")
+                with open('./users.json', 'r', encoding='utf-8-sig') as p:
+                    data = json.load(p)
                 
-                file = discord.File("/home/shellbyy/Desktop/repofolder/ButtlerBot/BBotV0.2.2/bot_images/quartertails.png", filename="quartertails.png")
-                tails.set_thumbnail(url="attachment://quartertails.png")
-                await ctx.send(embed=tails, file=file)
-
-                with open('./master.json', 'r', encoding='utf-8-sig') as p:
-                    data= json.load(p)
-
-                data["users"][str(ctx.author.name)] = {"name":ctx.author.name,"bank":1000}
-
                 data["users"][str(ctx.author.name)]["bank"] += amount
 
-                info = data["users"][str(ctx.author.name)]["bank"]
+                new_bal = data["users"][str(ctx.author.name)]["bank"]
 
-                message = f"Your updated balance is ${info}"
-
-                await ctx.send(f"{message}")
-
-                with open('./master.json', 'w', encoding='utf-8-sig') as file:
+                with open('./users.json', 'w', encoding='utf-8-sig') as file:
                     data = json.dump(data, file, indent=4)
 
-            elif num == 1 and side.lower() == B:
+                embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Won!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
 
-                tails1 = discord.Embed(color=color, timestamp=time, title="You Flipped Tails, and Lost!", value=f"You have lost {amount}! Your new balance has been updated!")
+                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
+                embed1.set_thumbnail(url='attachment://quartertails.png')
+                a = await ctx.send(embed=embed1, file=file)
+                await asyncio.sleep(20)
+                await a.delete()
+
+            elif num == 1 and side.lower() == "tails":
+
+                with open('./users.json', 'r', encoding='utf-8-sig') as p:
+                    data = json.load(p)
                 
-                file = discord.File("/home/shellbyy/Desktop/repofolder/ButtlerBot/BBotV0.2.2/bot_images/quartertails.png", filename="quartertails.png")
-                tails1.set_thumbnail(url="attachment://quartertails.png")
-                await ctx.send(embed=tails1, file=file)
-
-                with open('./master.json', 'r', encoding='utf-8-sig') as p:
-                    data= json.load(p)
-
-                data["users"][str(ctx.author.name)] = {"name":ctx.author.name,"bank":1000}
-
                 data["users"][str(ctx.author.name)]["bank"] -= amount
 
-                info = data["users"][str(ctx.author.name)]["bank"]
+                new_bal = data["users"][str(ctx.author.name)]["bank"]
 
-                message = f"Your updated balance is ${info}"
-
-                await ctx.send(f"{message}")
-
-                with open('./master.json', 'w', encoding='utf-8-sig') as file:
+                with open('./users.json', 'w', encoding='utf-8-sig') as file:
                     data = json.dump(data, file, indent=4)
+
+                embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Lost!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
+
+                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
+                embed1.set_thumbnail(url='attachment://quartertails.png')
+                a = await ctx.send(embed=embed1, file=file)
+                await asyncio.sleep(20)
+                await a.delete()
 
             else:
-                return ctx.send(errormsg)
-        else:
-            return ctx.send(errormsg1)
-                
 
+                a = await ctx.send(f"{ctx.author.name}, that is not a valid option. Please Try Again!")
+                await asyncio.sleep(10)
+                await a.delete()
+
+        else:
+            
+            a = await ctx.send(f"{ctx.author.name}, you do not have enough money in the bank to cover that transaction. Your balance is {balance}")
+            await asyncio.sleep(10)
+            await a.delete()
 
 def setup(bot):
     bot.add_cog(CP(bot))

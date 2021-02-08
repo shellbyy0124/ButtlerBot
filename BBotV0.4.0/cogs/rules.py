@@ -1,129 +1,84 @@
 import discord
-import json
-import datetime
 import random
+import datetime
 
 from discord.ext import commands
 from discord.ext.commands import Cog 
-
-with open('./rules.json', 'r', encoding='utf-8-sig') as f:
-    data = json.load(f)
-
-ruleone = data["rules"]["one"]
-ruletwo = data["rules"]["two"]
-rulethree = data["rules"]["three"]
-rulefour = data["rules"]["four"]
-rulefive = data["rules"]["five"]
-rulesix = data["rules"]["six"]
-ruleseven = data["rules"]["seven"]
-ruleeight = data["rules"]["eight"]
-rulenine = data["rules"]["nine"]
-ruleten = data["rules"]["ten"]
-
-with open('./master.json', 'r', encoding='utf-8-sig') as g:
-    data = json.load(g)
-
-LT = data["guild"]["LT"]
-errors = data["channels"]["errors"]
 
 class Rules(commands.Cog):
 
     def __init__(self, bot):
 
-        self.bot=bot
-        self.color=random.randint(0, 0xFFFFFF)
-        self.time=datetime.datetime.utcnow()
-        self.url=self.bot.user.avatar_url
-    
+        self.bot = bot
+        self.time = datetime.datetime.utcnow()
+        self.url = self.bot.user.avatar_url
+
     @commands.command()
-    async def rule(self, ctx):
-        
+    async def rules(self, ctx):
+
         def check(m):
-            return ctx.author == m.author
+            return ctx.message.author == m.author
+        
+        embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Please Select From One Of The Following Using The Number (one, two, three):", description="Page 3: Discipline Tier\nPage 4:Respect\nPage 5: Bullying\nPage 6: Learning\nPage 7: Rudeness.Disrespect\nPage 8: Spamming\nPage 9: NSFW\nPage 10: Channel Topics\nPage 11: Intimidation\nPage 12: Mark-Ups\nPage 13: Discord Invites\n**__Note:__**\nThis numbering system starts with three, and goes through thirteen", inline=False).set_thumbnail(url=self.url)
+        msg = await ctx.send(embed=embed1)
+        ans = await self.bot.wait_for('message', check=check)
 
-        embed1 = discord.Embed(color=self.color, timestamp=self.time, title=f"{LT.name}'s Rules Table Of Contents:", description="""Please Select From The Following:
-                                                                                                                                    One: Respect
-                                                                                                                                    Two: Inferior/Superior
-                                                                                                                                    Three: Insults
-                                                                                                                                    Four: Attitudes
-                                                                                                                                    Five: Spamming
-                                                                                                                                    Six: Restrictions
-                                                                                                                                    Seven: Chat Topics
-                                                                                                                                    Eight: Intimidation
-                                                                                                                                    Nine: Markups
-                                                                                                                                    Ten: Invites
-                                                                                                                                    Eleven: Staff Restrictions
-                                                                                                                                    Please Enter Your Answer As One, Two, Three, Etc.""", inline=False).set_thumbnail(url=self.url)
-        msg1 = await ctx.send(embed=embed1)
-        ans1 = await self.bot.wait_for('message', check=check)
-
-        if ans1.content.lower() == "one":
-            
-            embed2 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 1:", description="Respect of your peers is a must at all times. You can't just be rude. It's not cool >.>").set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed2)
-
-        elif ans1.content.lower() == "two":
-            
-            embed3 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 2:", description="Making someone feel inferior, or acting superior to others, is not allowed. Don't let your ego cash a check your account can't cash ^.^").set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed3)
-
-        elif ans1.content.lower() == "three":
-            
-            embed4 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 3:", description="Telling someone that their question is stupid, even in a joking manner, is not allowed. The only stupid question that exists is a question that isn't asked!", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed4)
-
-        elif ans1.content.lower() == "four":
-            
-            embed5 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 4:", description="Being rude or indecent because you assume that everyone should have a pre-existing level of knowledge of python before requesting help is not allowed. We learn together in this community!", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed5)
-
-        elif ans1.content.lower() == "five":
-
-            embed6 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 5:", description="No Spamming! This includes but is not limited to: Over posting, asking the same question repetatively, and abusing the `@` ability when not necessary is not allowed. If you need assistance, please create a support channel!", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed6)
-
-        elif ans1.content.lower() == "six":
-
-            embed7 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 6:", description="We have members of all ages that are welcome into this discord. No Cursing, NSFW, etc. It is not allowed, and may result in a perma-ban", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed7)
-
-        elif ans1.content.lower() == "seven":
-
-            embed8 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 7:", description="Keep the chats in accordance with the channel topics. If you're not sure, read the top of the channel window, or ask", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed8)
-
-        elif ans1.content.lower() == "eight":
-            
-            embed9 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 8:", description="No Intimidation! We grow and learn together as a team from day one, and on! If you need further clearance, please refer to rule number 3 and 4", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed9)
-
-        elif ans1.content.lower() == "nine":
-
-            embed10 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 9:", description="Use the proper markups when submitting code. Discord supports many languages!", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed10)
-
-        elif ans1.content.lower() == "ten":
-
-            embed11 = discord.Embed(color=self.color, timestamp=self.time, title="Rule Number 10", description="Do not create your own invite to this discord. An invite link has already been created for you to use. Type '>binvite' for the link!", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed11)
-
-        elif ans1.content.lower() == "eleven":
-            
-            roles = []
-
-            for r in ctx.guild.roles:
-                if not r.managed:
-                    roles.append(r)
-            embed12 = discord.Embed(color=self.color, timestamp=self.time, title="Staff Restrictions:", description=f"Staff Members include {roles.name}, and are allowed to exercise the rules, and warning tiers as they see fit. In the event that you feel any staff member is abusing their power, please create a support channel, and an admin will be with you shortly.", inline=False).set_thumbnail(url=self.url)
-            await msg1.edit(embed=embed12)
-
-        else:
-            role = discord.utils.get(ctx.guild.roles, name="Dev")
-            role1 = discord.utils.get(ctx.guild.roles, name="Head Dev")
-            error = discord.Embed(color=discord.Colour.red(), timestamp=self.time, title="Error!", description=f"{role1.mention} and {role.mention} an error has thrown for the rules.py>first command")
-            channel = self.bot.get_channel(errors)
-            a = await channel.send(error)
-            await a.pin()
+        if ans.content.lower() == "three":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules3 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Below You Will See The Tiers Of Warnings", description="1-3 Warnings: temp mute from text/voice chat channels < 10 minutes\n4th Warning: 12 hour silence from text/voice chat channels\n5th Warning: 1-3 Day Tempban or Perma Ban", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 3/14")
+            await msg.edit(embed=embedrules3)
+        elif ans.content.lower() == "four":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules4 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 1:", description="Respect of your peers is a must at all times!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 4/14")
+            await msg.edit(embed=embedrules4)
+        elif ans.content.lower() == "five":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules5 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 2:", description="Making someone feel inferior to your is prohibited!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 5/14")
+            await msg.edit(embed=embedrules5)
+        elif ans.content.lower() == "six":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules6 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 3:", description="Telling someone that their question is stupid is prohibited. If you feel the person is not wanting to learn on purpose get with a staff member", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 6/14")
+            await msg.edit(embed=embedrules6)
+        elif ans.content.lower() == "seven":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules7 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 4:", description="Being rude or indencent because you assume that everyone should have a pre-exisiting level of knowledge of python before requesting help is prohibited! We learn together!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 7/14")
+            await msg.edit(embed=embedrules7)
+        elif ans.content.lower() == "eight":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules8 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 5:", description="No Spamming! This includes but is not limited to: Over posting asking the same question over and over without showing progress or understanding using the @ ability when there are sufficient support channels for your needs", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 8/14")
+            await msg.edit(embed=embedrules8)
+        elif ans.content.lower() == "nine":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules9 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 6:", description="We have members of all ages that are welcome into this discord. No Cursing: NSFW: etc! It is prohibited!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 9/14")
+            await msg.edit(embed=embedrules9)
+        elif ans.content.lower() == "ten":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules10 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 7:", description="Keep the chats in accordance with the channels topic. If you're not sure read the top of the channel window or ask", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 10/14")
+            await msg.edit(embed=embedrules10)
+        elif ans.content.lower() == "eleven":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules11 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 8:", description="No Intimidation! We grow and learn together from day one and on!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 11/14")
+            await msg.edit(embed=embedrules11)
+        elif ans.content.lower() == "twelve":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules12 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 9:", description="Use the proper markups when submitting code. Discord supports many languages!", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 12/14")
+            await msg.edit(embed=embedrules12)
+        elif ans.content.lower() == "thirteen":
+            await ctx.message.delete()
+            await ans.delete()
+            embedrules13 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title="Number 10:", description="Do not create your own invite to this discord. An invite link has already been created for you to use. Type `>binbite` for the link", inline=False).set_thumbnail(url=self.url).set_footer(text="Page 13/14")
+            await msg.edit(embed=embedrules13)
+        
 
 def setup(bot):
     bot.add_cog(Rules(bot))

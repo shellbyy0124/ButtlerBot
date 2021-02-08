@@ -1,9 +1,14 @@
 import discord
 import asyncio
+import json
 
 from discord.ext import commands, tasks
 from discord.ext.commands import Cog 
 
+with open('./master.json', 'r', encoding='utf-8-sig') as f:
+    data = json.load(f)
+
+ID = data["guild"]["LT"]
 class TaskLoops(commands.Cog):
 
     def __init__(self, bot):
@@ -14,11 +19,21 @@ class TaskLoops(commands.Cog):
     @tasks.loop(seconds=30)
     async def changepresence(self):
 
-        list = ["If you can't remember, type >bhelp", "Released: 12/02/2020 By: Mekasu & Kastien", "Team Members: Mekasu, KataReborn, KortaPo", "Type bprefix to get the bots prefix", "Staff Applications = Open"]
+        await self.bot.wait_until_ready()
+        count = self.bot.get_guild(ID)
 
-        for item in list:
-            await self.bot.change_presence(activity=discord.Game(name=list))
-            await asyncio.sleep(30)
+        await self.bot.change_presence(activity=discord.Game(name="Staff Applications Are Now Open!")) 
+        await asyncio.sleep(30)       
+        await self.bot.change_presence(activity=discord.Game(name=f"Total Members: {count.member_count}"))
+        await asyncio.sleep(30)
+        await self.bot.change_presence(activity=discord.Game(name="prefix = >"))
+        await asyncio.sleep(30)
+        await self.bot.change_presence(activity=discord.Game(name="If you can't remember, type >bhelp"))
+        await asyncio.sleep(30)
+        await self.bot.change_presence(activity=discord.Game(name="Released: 12/02/2020 By: Mekasu & Kastien"))
+        await asyncio.sleep(30)
+        await self.bot.change_presence(activity=discord.Game(name="Team Members: Mekasu, KataReborn, KortaPo"))
+        await asyncio.sleep(30)
 
 def setup(bot):
     bot.add_cog(TaskLoops(bot))
