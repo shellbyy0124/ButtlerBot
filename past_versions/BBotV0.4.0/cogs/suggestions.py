@@ -93,7 +93,7 @@ class Suggestions(commands.Cog):
                         await ans2.delete()
                         await ans3.delete()
 
-                        final_embed = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"**__INCOMING SUGGESTION FROM {ctx.author.name}", description=f"**__Bots' Name:__**\n{ans1.content}\n**__Suggestion:__**{ans2.content}", inline=False).set_thumbnail(url=ctx.author.avatar_url)
+                        final_embed = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"**__INCOMING SUGGESTION FROM {ctx.author.name}__**", description=f"**__Bots' Name:__**\n{ans1.content}\n**__Suggestion:__**{ans2.content}", inline=False).set_thumbnail(url=ctx.author.avatar_url)
                         channel = self.bot.get_channel(suggestions)
                         a = await channel.send(embed=final_embed)
                         await a.pin()
@@ -133,7 +133,7 @@ class Suggestions(commands.Cog):
 
                         if ans4.content == "!save":
 
-                            await ctx.message.delete(suggestions)
+                            await ctx.message.delete()
                             await msg1.delete()
                             await ans1.delete()
                             await ans2.delete()

@@ -6,7 +6,11 @@ import os
 import sys
 import asyncio
 import json
+import sys
 
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from discord.ext import commands
 from discord.ext.commands import Cog 
 

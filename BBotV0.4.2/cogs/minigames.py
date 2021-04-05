@@ -17,6 +17,12 @@ class CP(commands.Cog):
     @commands.command()
     async def cflip(self, ctx, side, amount:int):
 
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
         num = random.randint(0, 1)
 
         with open('./users.json', 'r', encoding='utf-8-sig') as f:
@@ -40,7 +46,7 @@ class CP(commands.Cog):
 
                 embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Won!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Won\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
 
-                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
+                file = discord.File('/root/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
                 embed1.set_thumbnail(url='attachment://quarterheads.jpg')
                 a = await ctx.send(embed=embed1, file=file)
                 await asyncio.sleep(20)
@@ -60,7 +66,7 @@ class CP(commands.Cog):
 
                 embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Lost!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
 
-                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
+                file = discord.File('/root/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quarterheads.jpg', filename='quarterheads.jpg')
                 embed1.set_thumbnail(url='attachment://quarterheads.jpg')
                 a = await ctx.send(embed=embed1, file=file)
                 await asyncio.sleep(20)
@@ -80,7 +86,7 @@ class CP(commands.Cog):
 
                 embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Won!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
 
-                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
+                file = discord.File('/root/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
                 embed1.set_thumbnail(url='attachment://quartertails.png')
                 a = await ctx.send(embed=embed1, file=file)
                 await asyncio.sleep(20)
@@ -100,7 +106,7 @@ class CP(commands.Cog):
 
                 embed1 = discord.Embed(color=random.randint(0, 0xFFFFFF), timestamp=self.time, title=f"You Flipped {side.lower()}, and Lost!", description=f"__Name:__ {ctx.author.name}\n__Bet:__ {amount}\n__Won/Lost:__ Lost\n__Previous Balance:__ {balance}\n__New Balance:__ {new_bal}", inline=False)
 
-                file = discord.File('/home/shellbyy/Desktop/repofolder/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
+                file = discord.File('/root/discord_bots/ButtlerBot/BBotV0.4.0/bot_images/quartertails.png', filename='quartertails.png')
                 embed1.set_thumbnail(url='attachment://quartertails.png')
                 a = await ctx.send(embed=embed1, file=file)
                 await asyncio.sleep(20)

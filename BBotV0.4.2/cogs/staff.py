@@ -33,6 +33,12 @@ class Administration(commands.Cog):
 
         await ctx.message.delete()
 
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
         role_count = len(ctx.guild.roles)
         list_of_bots = [bot.mention for bot in ctx.guild.members if bot.bot]
         staff_roles = ["Owner", "Head Dev", "Dev", "Head Admin", "Admins", "Moderators", "Community Helpers", "Members"]
@@ -48,7 +54,7 @@ class Administration(commands.Cog):
             role = discord.utils.get(ctx.guild.roles, name=r)
             if role:
                 members = '\n'.join([member.name for member in role.members]) or "None"
-                embed2.add_field(name=role.name, value=members)
+                embed2.add_field(name=role.display_name, value=members)
 
         embed2.add_field(name='Number of roles', value=str(role_count), inline=False)
         embed2.add_field(name='Number Of Members', value=ctx.guild.member_count, inline=False)
@@ -65,7 +71,15 @@ class Administration(commands.Cog):
     @commands.command()
     @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Admin', 'Admins', 'Moderator', 'Community Helper', 'Team Leader', 'Head Team Member')
     async def bcnick(self, ctx, member:discord.Member, nick, reason):
+
         await ctx.message.delete()
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
         existing_nick = member.display_name
         new_nick = await member.edit(nick=nick)
         nickembed = discord.Embed(color=random.randint(0, 0xFFFFFF), title="**Inappropriate Nick Name!").add_field(name="\u200b", value=f"{member.name}, you have chosen an inappropriate nickname. The offending name is: '{existing_nick}, and it has been changed to; {new_nick}, because {reason}")
@@ -75,6 +89,12 @@ class Administration(commands.Cog):
     @commands.command()
     @commands.has_any_role('Owner', 'Head Dev')
     async def bpurge(self, ctx, amount:int):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
 
         await ctx.channel.purge(limit=amount, check=lambda m: not m.pinned)
         await ctx.send(f"I have purged {amount} messages")
@@ -87,6 +107,13 @@ class Administration(commands.Cog):
             return m.author.id == ctx.author.id
 
         await ctx.message.delete()
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
         a = await ctx.send("Please enter the reason for the warning")
         reason = await self.bot.wait_for('message', check=check)
 
@@ -102,10 +129,16 @@ class Administration(commands.Cog):
             await reason.delete()
 
     @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Administrator', 'Admins', 'Moderators', 'Team Captain', 'Community Helpers')
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Administrator', 'Admins', 'Moderators', 'Community Helpers')
     async def tempmute(self, ctx, member:discord.Member, reason, timer:int):
 
         await ctx.message.delete()
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
 
         def check(m):
             return ctx.message.author == m.author
@@ -142,8 +175,14 @@ class Administration(commands.Cog):
             await a.delete()
     
     @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Team Leader')
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev')
     async def blistall(self, ctx):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
 
         text = []
         channel = self.bot.get_channel(staff_commands)
@@ -156,8 +195,14 @@ class Administration(commands.Cog):
         await channel.send("\n".join(text))
 
     @commands.command()
-    @commands.has_any_role('Owner', 'Head Dev', 'Team Leader', 'Dev')
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev')
     async def blistmem(self, ctx):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
         
         members = []
 
@@ -170,8 +215,15 @@ class Administration(commands.Cog):
 
 
     @commands.command()
-    @commands.has_any_role('Owner', 'Team Leader', 'Head Dev', 'Dev')
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev')
     async def blistroles(self, ctx):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
         roles = []
         for r in ctx.guild.roles:
             if not r.managed:
@@ -185,6 +237,12 @@ class Administration(commands.Cog):
     @commands.has_any_role("Owner", "Head Dev", "Head Admin")
     async def promote(self, ctx, member:discord.Member):
 
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+            
         current_role = member.top_role
         hr_position = member.top_role.position
 
@@ -228,6 +286,55 @@ class Administration(commands.Cog):
 
         await member.send(embed=adminembed)        
         await member.send(embed=adminembed2)
+
+    @commands.command()
+    @commands.has_any_role('Owner', 'Head Dev', 'Dev', 'Head Administrator', 'Admins', 'Moderators', 'Community Helpers')
+    async def close(self, ctx):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
+        await ctx.channel.send("This channel will close in 10 seconds")
+        await asyncio.sleep(10)
+        await ctx.channel.delete()
+
+
+    @commands.command()
+    @commands.is_owner()
+    async def updatemember(self, ctx):
+
+        async with ctx.typing():
+
+            num = random.choice(0, 11)
+
+            await asyncio.sleep(num)
+
+        for member in ctx.guild.members:
+            
+            if not member.bot:
+                
+                with open('./members.json', 'r', encoding='utf-8-sig') as old:
+                    data = json.load(old)
+
+                data["members"][str(member.name)] = {"id" : str(member.id), "tag" : str(member), "points" : 0, "warnings" : 0}
+
+                with open('./members.json', 'w', encoding='utf-8-sig') as new:
+                    data = json.dump(data, new, indent=4)
+
+        for member in ctx.guild.members:
+            
+            if not member.bot:
+                
+                with open('./users.json', 'r', encoding='utf-8-sig') as old1:
+                    data = json.load(old1)
+
+                data["users"][str(member.name)] = {"name" : str(member.name), "bank" : 1000}
+
+                with open('./users.json', 'w', encoding='utf-8-sig') as new1:
+                    data = json.dump(data, new1, indent=4)
 
 def setup(bot):
     bot.add_cog(Administration(bot))

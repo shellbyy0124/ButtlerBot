@@ -1,0 +1,44 @@
+﻿{
+    "users": {
+        "Shellbyy": {
+            "name": "Shellbyy",
+            "bank": 1000
+        },
+        "TheOnlyCarl": {
+            "name": "TheOnlyCarl",
+            "bank": 1000
+        },
+        "\u239d\u23a0 \u2572\u2571\u2572\u2571 \u239d\u23a0chihaKrypt": {
+            "name": "\u239d\u23a0 \u2572\u2571\u2572\u2571 \u239d\u23a0chihaKrypt",
+            "bank": 1000
+        },
+        "Rishit": {
+            "name": "Rishit",
+            "bank": 1000
+        },
+        "KataReborn": {
+            "name": "KataReborn",
+            "bank": 1000
+        },
+        "???---": {
+            "name": "???---",
+            "bank": 1000
+        },
+        "Sunny030": {
+            "name": "Sunny030",
+            "bank": 1000
+        },
+        "KortaPo": {
+            "name": "KortaPo",
+            "bank": 1000
+        },
+        "Kastien-Dev": {
+            "name": "Kastien-Dev",
+            "bank": 1000
+        },
+        "shellbyy_test_account": {
+            "name": "shellbyy_test_account",
+            "bank": 1000
+        }
+    }
+}
