@@ -19,4 +19,12 @@ Below are those who helped me make this bot possible. If you do not see your nam
 Dev Team = 
 Programming Team = 
 Supporting Members = 
-Supporting Friends = 
+Supporting Friends = Tech W/ Tim discord (https://discord.gg/ay346U4c7V)
+                     Discord Linux       (https://discord.gg/discord-linux)
+
+"""
+AT THIS POINT IN THE PROGRESS OF OTHER THING THAT I AM CURRENTLY WORKING ON AND AM TAKING A BREAK FROM DISCORD BOT PRODUCTION. PLEASE JOIN US IN OUR PROGRAMMING TEAM DISCORD, AND OUR SUPPORT BOT DISCORD.
+
+Learning Together - https://discord.gg/DEzK4vStfC
+ButtlerBot Support - https://discord.gg/weREZMjr3s
+"""
