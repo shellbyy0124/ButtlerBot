@@ -1,0 +1,15 @@
+{
+    "guild": {
+        "TOKEN": "",
+        "command_prefix": "!",
+        "LT": "" #this is for your discord server (guild) id
+    },
+    "roles": {
+        # this block is for all of your role names and id's 
+        "example_role_name" : <role_id_number> # do not put the number in single quotes '' or double quotes "" leave as an integer
+    },
+    "channels": {
+        # this block is for all of your channel names and id's
+        "channel_name" : <channel_id> # do not put he number in single quotes '' or double quotes "" leave as an integer
+    }
+}
